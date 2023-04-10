@@ -1,0 +1,2 @@
+#!/bin/bash
+diff -u config.rb.orig config.rb > config.patch

@@ -1,0 +1,175 @@
+stages:
+  - Build
+  - Deploy
+
+variables:
+  AS_VERSION: "v3.3.1"
+  DEVEL_SERVER: "TODO.devel.edu"
+  TEST_SERVER: "TODO.test.edu"
+  PROD_SERVER: "TODO.edu"
+
+# TODO -- override the `tags` to use a different tag name for your runner's tag name
+Build Solr and Nginx:
+  stage: Build
+  image: docker:stable
+  tags:
+    - msul-shared
+  variables:
+    CONTAINER_IMAGE_NGINX: $CI_REGISTRY_IMAGE/nginx:$CI_COMMIT_SHORT_SHA
+    CONTAINER_IMAGE_SOLR: $CI_REGISTRY_IMAGE/solr:$CI_COMMIT_SHORT_SHA
+    CONTAINER_IMAGE_SOLR_TEST: $CI_REGISTRY_IMAGE/solr_test:$CI_COMMIT_SHORT_SHA
+  before_script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+  script:
+    # Build Solr
+    - docker build --build-arg AS_VERSION="$AS_VERSION" --pull -t $CONTAINER_IMAGE_SOLR ./solr
+    - docker push $CONTAINER_IMAGE_SOLR
+    # Build Solr test
+    - docker build --build-arg AS_VERSION="$AS_VERSION" --pull -t $CONTAINER_IMAGE_SOLR_TEST ./solr
+    - docker push $CONTAINER_IMAGE_SOLR_TEST
+    # Build Nginx
+    - docker build --pull -t $CONTAINER_IMAGE_NGINX ./nginx
+    - docker push $CONTAINER_IMAGE_NGINX
+
+# TODO -- override the `tags` to use a different tag name for your runner's tag name
+Build ArchivesSpace:
+  stage: Build
+  image: docker:stable
+  tags:
+    - msul-shared
+  variables:
+    AS_LATEST: $CI_REGISTRY_IMAGE:latest
+    AS_TEST_LATEST: $CI_REGISTRY_IMAGE/test:latest
+    CONTAINER_IMAGE: $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA
+    CONTAINER_IMAGE_TEST: $CI_REGISTRY_IMAGE/test:$CI_COMMIT_SHORT_SHA
+  before_script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+  script:
+    # Build devel/test image
+    - docker pull $AS_TEST_LATEST || true
+    - >
+      docker build
+      --build-arg AS_VERSION="$AS_VERSION"
+      --build-arg CONFIG_PATCH_FILE="config.test.patch"
+      --tag $CONTAINER_IMAGE_TEST
+      --tag $AS_TEST_LATEST
+      --cache-from $AS_TEST_LATEST
+      .
+    - docker push $CONTAINER_IMAGE_TEST
+    - docker push $AS_TEST_LATEST
+    # Build prod image
+    - docker pull $AS_LATEST || true
+    - >
+      docker build
+      --build-arg AS_VERSION="$AS_VERSION"
+      --build-arg CONFIG_PATCH_FILE="config.patch"
+      --tag $CONTAINER_IMAGE
+      --tag $AS_LATEST
+      --cache-from $AS_LATEST
+      .
+    - docker push $CONTAINER_IMAGE
+    - docker push $AS_LATEST
+
+# TODO -- This ENCODED_PRIVATE_KEY must either exist for your environment, or you should change it
+1 Deploy Devel:
+  stage: Deploy
+  extends: .deploy_template
+  environment:
+    name: devel
+    url: https://$SERVER
+  variables:
+    ENCODED_PRIVATE_KEY: $KEY_9865_DEVEL
+    SERVER: $DEVEL_SERVER
+
+# TODO -- This ENCODED_PRIVATE_KEY must either exist for your environment, or you should change it
+2 Deploy Test:
+  stage: Deploy
+  needs:
+    - 1 Deploy Devel
+  extends: .deploy_template
+  environment:
+    name: test
+    url: https://$SERVER
+  variables:
+    ENCODED_PRIVATE_KEY: $KEY_9865_TEST
+    SERVER: $TEST_SERVER
+
+# TODO -- This ENCODED_PRIVATE_KEY must either exist for your environment, or you should change it
+3 Deploy Prod:
+  stage: Deploy
+  needs:
+    - 2 Deploy Test
+  extends: .deploy_template
+  environment:
+    name: prod
+    url: https://$SERVER
+  variables:
+    ENCODED_PRIVATE_KEY: $KEY_9865_PROD
+    SERVER: $PROD_SERVER
+
+# TODO -- override the `tags` to use a different tag name for your runner's tag name
+.deploy_template:
+  extends: .setup_ssh
+  allow_failure: false
+  variables:
+    COMPOSE_PATH: "/home/deploy"
+  rules:
+    - if: '$CI_PIPELINE_SOURCE != "schedule"'
+      when: manual
+    - if: '$CI_PIPELINE_SOURCE == "schedule" && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+  script:
+    # Install tools used by this job
+    - apk add wget gettext moreutils curl
+    - "wget --header=\"Authorization: token $GITHUB_USER_TOKEN\" https://github.com/mikefarah/yq/releases/download/v4.26.1/yq_linux_amd64 -O ./yq"
+    - chmod +x ./yq
+    # Perform replaces in compose file
+    ## Modify the image tag from :latest -> $CI_COMMIT_SHORT_SHA
+    - ./yq -i ".services.nginx.image=\"$CI_REGISTRY_IMAGE/nginx:$CI_COMMIT_SHORT_SHA\"" docker-compose.yml
+    - |
+      if [ "${CI_ENVIRONMENT_NAME}" == "prod" ]; then
+          ./yq -i ".services.archivesspace.image=\"$CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA\"" docker-compose.yml;
+          ./yq -i ".services.solr.image=\"$CI_REGISTRY_IMAGE/solr:$CI_COMMIT_SHORT_SHA\"" docker-compose.yml;
+      else
+          ./yq -i ".services.archivesspace.image=\"$CI_REGISTRY_IMAGE/test:$CI_COMMIT_SHORT_SHA\"" docker-compose.yml;
+          ./yq -i ".services.solr.image=\"$CI_REGISTRY_IMAGE/solr_test:$CI_COMMIT_SHORT_SHA\"" docker-compose.yml;
+      fi
+    ## Modify the environment variables
+    - ./yq -i ".services.archivesspace.environment[\"APPCONFIG_FRONTEND_PROXY_URL\"]=\"$CI_ENVIRONMENT_URL/staff/\"" docker-compose.yml
+    - ./yq -i ".services.archivesspace.environment[\"APPCONFIG_OAI_PROXY_URL\"]=\"$CI_ENVIRONMENT_URL/oai/\"" docker-compose.yml
+    - ./yq -i ".services.archivesspace.environment[\"APPCONFIG_PUBLIC_PROXY_URL\"]=\"$CI_ENVIRONMENT_URL/\"" docker-compose.yml
+    # Deploy compose file and logrote file
+    - scp docker-compose* deploy@$SERVER:$COMPOSE_PATH/
+    - scp etc/logrotate.d/* deploy@$SERVER:$COMPOSE_PATH/
+    - ssh deploy@$SERVER sudo /bin/cp $COMPOSE_PATH/archivesspace-docker /etc/logrotate.d/
+    # Deploy the stack
+    - ssh deploy@$SERVER docker login -u cicd -p $DEPLOY_TOKEN $CI_REGISTRY
+    - ssh deploy@$SERVER docker stack deploy --with-registry-auth -c $COMPOSE_PATH/docker-compose.yml as
+    - sleep 60
+    # Validate the status
+    - |
+        ATTEMPTS=0;
+        echo "$(date +'%m-%d-%Y %T %z') -- Checking for site to come online";
+        while [[ "$ATTEMPTS" -le 20 ]]; do
+            echo "$(date +'%m-%d-%Y %T %z') -- Calling curl";
+            if [[ $(curl -s -o /dev/null -I -w '%{http_code}' $CI_ENVIRONMENT_URL) -eq 200 ]]; then
+                echo "$(date +'%m-%d-%Y %T %z') -- New stack successfully loading";
+                EC=0;
+                break;
+            fi;
+            echo "$(date +'%m-%d-%Y %T %z') -- Not online. Waiting...";
+            EC=1;
+            sleep 10;
+            ATTEMPTS=$((ATTEMPTS+1));
+        done;
+        if [[ $EC -ne 0 ]]; then
+            echo "$(date +'%m-%d-%Y %T %z') -- New stack never came online, curl exit code: ${EC}!";
+            exit 1;
+        fi;
+    # Clean up
+    - ssh deploy@$SERVER docker system prune -a -f
+    - ssh deploy@$SERVER docker ps
+
+include:
+  - project: 'msu-libraries/public/cicd-templates'
+    ref: main
+    file: 'SSH.gitlab-ci.yml'

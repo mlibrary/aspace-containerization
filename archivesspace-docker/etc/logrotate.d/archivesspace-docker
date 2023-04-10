@@ -1,0 +1,17 @@
+/var/lib/docker/volumes/archivesspace*/_data/*.out {
+  rotate 7
+  daily
+  compress
+  missingok
+  delaycompress
+  copytruncate
+}
+
+/var/lib/docker/volumes/archivesspace*/_data/*.log {
+  rotate 7
+  daily
+  compress
+  missingok
+  delaycompress
+  copytruncate
+}
