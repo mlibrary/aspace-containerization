@@ -1,0 +1,8 @@
+# Ignore everything
+*
+
+# Allow files and directories
+!config.rb
+!startup.sh
+
+# Ignore unnecessary files inside allowed directories
