@@ -5,13 +5,21 @@ on:
   workflow_dispatch:  # This allows to kick-off the action manually from GitHub Actions
     inputs:
       archives_space_version:
-        description: "Archives Space Version."
+        description: "Archives Space Version"
         required: true
         default: "latest"
         type: choice
         options:
           - "latest"
           - "v3.3.1"
+      configuration_flavor:
+        description: "Configuration Flavor"
+        required: true
+        default: "default"
+        type: choice
+        options:
+          - "default"
+          - "kubernetes"
 
 jobs:
   build:
@@ -36,7 +44,8 @@ jobs:
         with:
           context: .
           push: true
-          tags: 'ghcr.io/mlibrary/aspace-containerization/aspace-app:${{ github.ref_name }}, ghcr.io/mlibrary/aspace-containerization/aspace-app:${{ github.event.inputs.archives_space_version }}'
+          tags: 'ghcr.io/mlibrary/aspace-containerization/aspace-app:${{ github.sha }}, ghcr.io/mlibrary/aspace-containerization/aspace-app:${{ github.event.inputs.archives_space_version }}'
           file: Dockerfile
           build-args: |
             ASPACE_VERSION=${{ github.event.inputs.archives_space_version }}
+            CONFIG_FILE=config-${{ github.event.inputs.configuration_flavor }}.rb

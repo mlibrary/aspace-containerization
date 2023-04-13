@@ -5,7 +5,7 @@ on:
   workflow_dispatch:  # This allows to kick-off the action manually from GitHub Actions
     inputs:
       archives_space_version:
-        description: "Archives Space Version."
+        description: "Archives Space Version"
         required: true
         default: "latest"
         type: choice

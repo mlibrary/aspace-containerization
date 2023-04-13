@@ -3,6 +3,9 @@ FROM ubuntu:22.04 as build_release
 ARG ASPACE_VERSION=latest
 ENV ASPACE_VERSION=$ASPACE_VERSION
 
+ARG CONFIG_FILE=config-default.rb
+ENV CONFIG_FILE=$CONFIG_FILE
+
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && \
@@ -36,7 +39,7 @@ RUN wget -q https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.30/mys
 #git clone https://github.com/MSU-Libraries/accession_slips.git /archivesspace/plugins/accession_slips/ && \
 
 # Install Configuration
-COPY config.rb /config.rb
+COPY $CONFIG_FILE /config.rb
 RUN mv /config.rb /archivesspace/config
 RUN ls -l /archivesspace/config
 RUN cat /archivesspace/config/config.rb
@@ -73,9 +76,9 @@ RUN apt-get update && \
 
 USER archivesspace
 
-EXPOSE 8080 8081 8089 8090 8092
-
 HEALTHCHECK --interval=1m --timeout=5s --start-period=5m --retries=2 \
   CMD wget -q --spider http://localhost:8089/ || exit 1
 
 CMD ["/archivesspace/startup.sh"]
+
+VOLUME /archivesspace/data

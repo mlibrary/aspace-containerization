@@ -12,36 +12,28 @@ services:
     ports:
       - "8080:8080"
       - "8081:8081"
+      - "8082:8082"
       - "8089:8089"
       - "8090:8090"
-      - "8092:8092"
+      - "8091:8091"
+      - "8888:8888"
     volumes:
-      - data:/archivesspace/data
-      - logs:/archivesspace/logs
-    command: sleep infinity
+      - app-data:/archivesspace/data
+      - app-logs:/archivesspace/logs
+#    command: sleep infinity
 
   db:
     image: bitnami/mariadb
     environment:
       - ALLOW_EMPTY_PASSWORD=yes
       - MARIADB_DATABASE=archivesspace
-      - MARIADB_USER=archivesspace
-      - MARIADB_PASSWORD=archivesspace
+      - MARIADB_USER=as
+      - MARIADB_PASSWORD=as123
       - TZ=America/Detroit
     volumes:
       - db-data:/var/lib/mysql
     ports:
       - "3306:3306"
-
-#  solr:
-#    image: ghcr.io/mlibrary/aspace-containerization/aspace-solr:v3.3.1
-#    environment:
-#      - SOLR_JAVA_MEM=-Xms1024m -Xmx1024m
-#      - SOLR_HEAP=1024m
-#    volumes:
-#      - solr-data:/var/solr
-#    ports:
-#      - "8983:8983"
 
   solr:
     image: aspace-solr
@@ -49,7 +41,6 @@ services:
       dockerfile: Dockerfile
       context: ./solr
     environment:
-      - ASPACE_VERSION=v3.3.1
       - SOLR_JAVA_MEM=-Xms1024m -Xmx1024m
       - SOLR_HEAP=1024m
     volumes:
@@ -59,12 +50,7 @@ services:
 
 volumes:
 
-  data:
-  logs:
+  app-data:
+  app-logs:
   db-data:
-#  solr-conf:
-#    driver_opts:
-#      type: none
-#      device: ${PWD}/solr/arclight
-#      o: bind
   solr-data:
