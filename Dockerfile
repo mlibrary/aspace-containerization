@@ -3,9 +3,6 @@ FROM ubuntu:22.04 as build_release
 ARG ASPACE_VERSION=latest
 ENV ASPACE_VERSION=$ASPACE_VERSION
 
-ARG CONFIG_FILE=config-default.rb
-ENV CONFIG_FILE=$CONFIG_FILE
-
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && \
@@ -31,18 +28,9 @@ RUN if [ "$ASPACE_VERSION" = "latest" ]; then \
 RUN wget -q https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.30/mysql-connector-java-8.0.30.jar && \
     cp /mysql-connector-java-8.0.30.jar /archivesspace/lib/
 
-# Examples of how to setup themes and plugins
-#echo "Setting up plugins" && \
-#mkdir /archivesspace/plugins/msul-theme && \
-#git clone https://gitlab.msu.edu/msu-libraries/public/archivesspace-customizations.git /archivesspace/plugins/msul-theme/  && \
-#git clone https://github.com/AtlasSystems/ArchivesSpace-Aeon-Fulfillment-Plugin /archivesspace/plugins/aeon-fulfillment/ && \
-#git clone https://github.com/MSU-Libraries/accession_slips.git /archivesspace/plugins/accession_slips/ && \
-
-# Install Configuration
-COPY $CONFIG_FILE /config.rb
-RUN mv /config.rb /archivesspace/config
-RUN ls -l /archivesspace/config
-RUN cat /archivesspace/config/config.rb
+# Install AppConfig Template
+COPY app_config.rb /app_config.rb
+RUN mv /app_config.rb /archivesspace
 
 # Install Start Up Script
 COPY startup.sh /startup.sh
@@ -68,6 +56,7 @@ RUN apt-get update && \
       wget \
       unzip \
       tzdata \
+      gettext-base \
       vim && \
     rm -rf /var/lib/apt/lists/* && \
     groupadd -g 1000 archivesspace && \

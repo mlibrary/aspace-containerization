@@ -2,7 +2,7 @@
 *
 
 # Allow files and directories
-!config-*.rb
+!app_config.rb
 !startup.sh
 
 # Ignore unnecessary files inside allowed directories

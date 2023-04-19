@@ -8,13 +8,10 @@ Containerization of ArchivesSpace for Kubernetes deployment
 | Build solr image          | build-solr-image.yml         | aspace-solr |
 | Delete old workflow runs  | delete-old-workflow-runs.yml | n/a         |
 
-NOTES
-* ATM `config-kubernetes.rb` will need to be modify manually to fit the target cluster before building the app image. 
-* The solr image is not dependent on `config.rb`, hence it can be used anywhere so long as the ArchivesSpace Versions (ASPACE_VERSION) match.
 ## Running Locally
 ### Build ArchivesSpace
 ```shell
-docker-compose build --build-arg ASPACE_VERSION=v3.3.1 --build-arg CONFIG_FILE=config-docker-compose.rb app
+docker-compose build --build-arg ASPACE_VERSION=v3.3.1 app
 docker-compose build --build-arg ASPACE_VERSION=v3.3.1 solr
 ```
 ### Start ArchivesSpace
