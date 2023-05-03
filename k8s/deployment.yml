@@ -28,6 +28,13 @@ spec:
               value: "http://solr:8983/solr/archivesspace"
             - name: HOST_URL
               value: "http://aspace"
+          securityContext:
+            capabilities:
+              drop:
+                - ALL
+            runAsUser: archivesspace
+            runAsNonRoot: true
+            allowPrivilegeEscalation: false
           ports:
             - containerPort: 8080
             - containerPort: 8081
