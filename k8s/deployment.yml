@@ -21,6 +21,8 @@ spec:
         - image: ghcr.io/mlibrary/aspace-containerization/aspace-app:v3.3.1
           name: app
           imagePullPolicy: IfNotPresent
+          command: ["sleep"]
+          args: ["infinity"]
           env:
             - name: DB_URL
               value: "jdbc:mysql://db:3306/archivesspace?user=as&password=as123&useUnicode=true&characterEncoding=UTF-8"
@@ -28,13 +30,6 @@ spec:
               value: "http://solr:8983/solr/archivesspace"
             - name: HOST_URL
               value: "http://aspace"
-          securityContext:
-            capabilities:
-              drop:
-                - ALL
-            runAsUser: archivesspace
-            runAsNonRoot: true
-            allowPrivilegeEscalation: false
           ports:
             - containerPort: 8080
             - containerPort: 8081
