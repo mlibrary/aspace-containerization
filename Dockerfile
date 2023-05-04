@@ -30,7 +30,7 @@ RUN wget -q https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.30/mys
 
 # Install AppConfig Template
 COPY app_config.rb /app_config.rb
-RUN mv /app_config.rb /archivesspace
+RUN mv /app_config.rb /archivesspace/config/config.rb
 
 # Install Start Up Script
 COPY startup.sh /startup.sh
