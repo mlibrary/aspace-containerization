@@ -11,6 +11,8 @@ export APPCONFIG_SOLR_URL="${SOLR_URL:="http://localhost:8983/solr/archivesspace
 export APPCONFIG_HOST_URL="${HOST_URL:="http://localhost"}"
 envsubst < /archivesspace/app_config.rb > /archivesspace/config/config.rb
 
+cat /archivesspace/config/config.rb
+
 /archivesspace/scripts/setup-database.sh
 if [[ "$?" != 0 ]]; then
   echo "Error running the database setup script."
