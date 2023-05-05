@@ -23,10 +23,7 @@ spec:
           imagePullPolicy: Always
           env:
             - name: DB_URL
-              valueFrom:
-                secretKeyRef:
-                  name: database
-                  key: url
+              value: "jdbc:mysql://wps-cs-mariadb-01.aws.vdc.it.umich.edu:3306/archivesspace?user=archivesspace&password=Cx2Set84daFjZ&useUnicode=true&characterEncoding=UTF-8"
             - name: SOLR_URL
               value: "http://solr:8983/solr/archivesspace"
             - name: HOST_URL
