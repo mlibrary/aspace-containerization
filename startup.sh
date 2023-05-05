@@ -6,9 +6,9 @@ DATA_TMP_DIR="${DATA_DIR:-"/archivesspace/data"}/tmp"
 rm -rf $DATA_TMP_DIR/*
 
 # substitute environment variables in AppConfig template file
-export APPCONFIG_DB_URL="${DB_URL:="jdbc:mysql://localhost:3306/archivesspace?user=as&password=as123&useUnicode=true&characterEncoding=UTF-8"}"
-export APPCONFIG_SOLR_URL="${SOLR_URL:="http://localhost:8983/solr/archivesspace"}"
-export APPCONFIG_HOST_URL="${HOST_URL:="http://localhost"}"
+export APPCONFIG_DB_URL="${DB_URL}"
+export APPCONFIG_SOLR_URL="${SOLR_URL}"
+export APPCONFIG_HOST_URL="${HOST_URL}"
 envsubst < /archivesspace/app_config.rb > /archivesspace/config/config.rb
 
 cat /archivesspace/config/config.rb
