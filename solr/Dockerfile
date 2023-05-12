@@ -30,12 +30,4 @@ FROM solr:8.10
 
 COPY --from=build_release /archivesspace/solr /opt/solr/server/solr/configsets/archivesspace/conf
 
-# List Archives Space Solr Conf Files
-USER root
-RUN chown -R solr:solr /opt/solr/server/solr/configsets/archivesspace
-USER solr
-RUN ls -l /opt/solr/server/solr/configsets/archivesspace/conf
-
 CMD solr-create -p 8983 -c archivesspace -d archivesspace
-
-VOLUME /opt/solr/server/solr/archivesspace/data

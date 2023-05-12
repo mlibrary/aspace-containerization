@@ -32,15 +32,14 @@ RUN wget -q https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.30/mys
 COPY app_config.rb /app_config.rb
 RUN mv /app_config.rb /archivesspace
 
-# Make /archivesspace/config directory writable by anyone.
-RUN chmod o+w /archivesspace/config
-
 # Install Start Up Script
 COPY startup.sh /startup.sh
 RUN mv /startup.sh /archivesspace && \
     chmod u+x /archivesspace/startup.sh
 
 FROM ubuntu:20.04
+
+ARG UID=1001090000
 
 ENV ARCHIVESSPACE_LOGS=/dev/null \
     DEBIAN_FRONTEND=noninteractive \
@@ -61,10 +60,10 @@ RUN apt-get update && \
       tzdata \
       gettext-base \
       vim && \
-    rm -rf /var/lib/apt/lists/* && \
-    groupadd -g 1000 archivesspace && \
-    useradd -l -M -u 1000 -g archivesspace archivesspace && \
-    chown -R archivesspace:archivesspace /archivesspace
+    rm -rf /var/lib/apt/lists/*
+
+RUN useradd -g root -m -s /bin/bash -l -o -u $UID archivesspace && \
+    chown -R archivesspace:root /archivesspace
 
 USER archivesspace
 
@@ -72,5 +71,3 @@ HEALTHCHECK --interval=1m --timeout=5s --start-period=5m --retries=2 \
   CMD wget -q --spider http://localhost:8089/ || exit 1
 
 CMD ["/archivesspace/startup.sh"]
-
-VOLUME /archivesspace/data
