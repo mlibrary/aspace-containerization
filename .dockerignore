@@ -2,7 +2,6 @@
 *
 
 # Allow files and directories
-!archivesspace/**
 !app_config.rb
 !startup.sh
 
