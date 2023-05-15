@@ -28,6 +28,9 @@ RUN if [ "$ASPACE_VERSION" = "latest" ]; then \
 RUN wget -q https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.30/mysql-connector-java-8.0.30.jar && \
     cp /mysql-connector-java-8.0.30.jar /archivesspace/lib/
 
+# Install Monkey Patches
+COPY /archivesspace/common/db/migrations/088_rights_management.rb /archivesspace/common/db/migrations/088_rights_management.rb
+
 # Install AppConfig Template
 COPY app_config.rb /app_config.rb
 RUN mv /app_config.rb /archivesspace
