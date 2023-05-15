@@ -10,7 +10,8 @@ RUN apt-get update && \
       ca-certificates \
       git \
       wget \
-      unzip
+      unzip \
+      default-jdk
 
 # Install Archives Space
 RUN if [ "$ASPACE_VERSION" = "latest" ]; then \
@@ -27,6 +28,10 @@ RUN if [ "$ASPACE_VERSION" = "latest" ]; then \
 # Install Java MySQL Connector
 RUN wget -q https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.30/mysql-connector-java-8.0.30.jar && \
     cp /mysql-connector-java-8.0.30.jar /archivesspace/lib/
+
+# Monkey Patch 088_rights_management.rb in archivesspace/lib/common.jar at /common/db/migrations
+COPY /088_rights_management.rb /db/migrations/088_rights_management.rb
+RUN jar --verbose --update --file=/archivesspace/lib/common.jar /db/migrations/088_rights_management.rb
 
 # Install AppConfig Template
 COPY app_config.rb /app_config.rb
