@@ -23,7 +23,10 @@ spec:
           imagePullPolicy: IfNotPresent
           env:
             - name: DB_URL
-              value: "jdbc:mysql://wps-cs-mariadb-01.aws.vdc.it.umich.edu:3306/archivesspace?user=archivesspace&password=Cx2Set84daFjZ&useUnicode=true&characterEncoding=UTF-8&connectionCollation=utf8mb4_general_ci"
+              valueFrom:
+                secretKeyRef:
+                  name: database
+                  key: url
             - name: SOLR_URL
               value: "http://solr:8983/solr/archivesspace"
             - name: HOST_URL
