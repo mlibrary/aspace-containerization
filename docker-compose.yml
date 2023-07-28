@@ -37,7 +37,6 @@ services:
     command: [
       '--character-set-server=utf8mb4',
       '--collation-server=utf8mb4_unicode_ci',
-      '--socket=/tmp/mysql.sock',
       '--log_bin_trust_function_creators=1'
     ]
     volumes:
