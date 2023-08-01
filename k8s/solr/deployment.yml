@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    service: solr
+  name: solr
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      service: solr
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        service: solr
+    spec:
+      containers:
+        - image: ghcr.io/mlibrary/aspace-containerization/aspace-solr:v3.3.1
+          name: solr
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: SOLR_JAVA_MEM
+              value: "-Xms1024m -Xmx1024m"
+            - name: SOLR_HEAP
+              value: "1024m"
+          ports:
+            - containerPort: 8983
+          volumeMounts:
+            - name: solr-data
+              mountPath: /var/solr
+      volumes:
+        - name: solr-data
+          persistentVolumeClaim:
+            claimName: solr-data

@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    service: aspace
+  name: app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      service: aspace
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        service: aspace
+    spec:
+      containers:
+        - image: ghcr.io/mlibrary/aspace-containerization/aspace-app:v3.3.1
+          name: app
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: DB_URL
+              valueFrom:
+                secretKeyRef:
+                  name: database
+                  key: url
+            - name: SOLR_URL
+              value: "http://solr:8983/solr/archivesspace"
+            - name: HOST_URL
+              value: "http://aspace"
+          ports:
+            - containerPort: 8080
+            - containerPort: 8081
+            - containerPort: 8082
+            - containerPort: 8089
+            - containerPort: 8090
+            - containerPort: 8091
+            - containerPort: 8888
+          volumeMounts:
+            - name: app-data
+              mountPath: /archivesspace/data
+            - name: app-logs
+              mountPath: /archivesspace/logs
+      volumes:
+        - name: app-data
+          persistentVolumeClaim:
+            claimName: app-data
+        - name: app-logs
+          persistentVolumeClaim:
+            claimName: app-logs

@@ -1,16 +1,37 @@
-# [MITS Container Service](https://its.umich.edu/computing/virtualization-cloud/container-service/)
-## k8s folder
-### database_url_secret.yml
-You'll need to modify this file locally to replace the `<archivesspace_password>` placeholder with the actually password for the database user `archivesspace`.
+## Deployment
+
+This documents how to deploy ArchivesSpace using the 
+[MITS Container Service](https://its.umich.edu/computing/virtualization-cloud/container-service/).
+Perform the steps described in the sections below in order.
+You can access the [Red Hat OpenShift Service on AWS here](https://containers.aws.web.umich.edu/).
+
+### Configure database secret
+Modify the `k8s/app/database-url-secret.yml` file, replacing the `<archivesspace_password>` placeholder in the database URL with the actual password for the database user.
 
 Be careful not to commit the `database_url_secret.yml` file to the repository with the **actual plain text password**.
-### deployment.yml
-This file is dependent upon on the above database URL secret. It will deploy the archivesspace *vanilla* application and its supporting external Solr service.
-## Deploy to [Red Hat OpenShift Service on AWS](https://containers.aws.web.umich.edu/)
-### +Add Secret
-From the `Developer` view click `+Add` in the left menu and select `Import YAML` under `From Local Machine`. Copy and paste the contents of `database_url_secret.yml` and click the `Create` button.
-### +Add Deployment
-From the `Developer` view click `+Add` in the left menu and select `Import YAML` under `From Local Machine`. Copy and paste the contents of `deployment.yml` and click the `Create` button.
+
+### Create OpenShift resources using the OpenShift CLI
+After updating the database secret, you can use a single command to create resources in OpenShift
+based on the Kubernetes objects in the `app` and `solr` directories.
+The [`oc` command line interface](https://docs.openshift.com/container-platform/4.13/cli_reference/openshift_cli/getting-started-cli.html#installing-openshift-cli) is required.
+For MacOS users, installation using [Homebrew](https://formulae.brew.sh/formula/openshift-cli) is recommended.
+
+Once the CLI is installed, follow these steps.
+1. Login in on the command line.
+    1. From the OpenShift GUI, click on the dropdown with your username in the top-right hand corner of the window, and then select "Copy Login Command".
+    1. Select the "umich-openid" button.
+    1. Select the "Display Token" link.
+    1. Copy the command beginning with `oc login --token=...`.
+    1. Paste and run the command in your terminal.
+1. Switch to the correct OpenShift project.
+    ```
+    oc project archivesspace
+    ```
+1. Issue the following command from the root of the repository.
+    ```
+    oc apply -f k8s -R --validate
+    # Note you can add --dry-run=client to test how the command would affect the project.
+    ```
 ### Create Routes
 From the `Administrator` view under `Networking` click `Routes`. Click the `Create Route` button to add routes to the service `aspace`.
 ### Verify Deployment
