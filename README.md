@@ -34,16 +34,7 @@ docker-compose restart app
 | [http://localhost:8091/aspace-indexer/](http://localhost:8091/aspace-indexer/)                           | the indexer                                              |
 | [http://localhost:8888/archivesspace/api/](http://localhost:8888/archivesspace/api/)                     | the API documentation                                    |
 | [http://localhost:8983/solr/#/](http://localhost:8983/solr/#/)                                           | the external Solr admin console                          |
-| jdbc:mysql://localhost:3306/archivesspace?user=as&password=as123&useUnicode=true&characterEncoding=UTF-8 | the database                                             |
-```text
-DBMS: MySQL (ver. 5.5.5-10.11.2-MariaDB)
-Case sensitivity: plain=exact, delimited=exact
-Driver: MySQL Connector/J (ver. mysql-connector-java-8.0.25 (Revision: 08be9e9b4cba6aa115f9b27b215887af40b159e0), JDBC4.2)
-Effective version: MariaDB (ver. 10.11.2)
 
-Ping: 24 ms
-SSL: no
-```
 To start using the Staff interface application, log in using the adminstrator account:
 * Username: admin
 * Password: admin

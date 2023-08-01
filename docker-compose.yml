@@ -27,13 +27,18 @@ services:
 #    command: sleep infinity
 
   db:
-    image: bitnami/mariadb
+    image: mysql:8
     environment:
-      - ALLOW_EMPTY_PASSWORD=yes
-      - MARIADB_DATABASE=archivesspace
-      - MARIADB_USER=as
-      - MARIADB_PASSWORD=as123
-      - TZ=America/Detroit
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+      - MYSQL_ROOT_PASSWORD=asroot123
+      - MYSQL_DATABASE=archivesspace
+      - MYSQL_USER=as
+      - MYSQL_PASSWORD=as123
+    command: [
+      '--character-set-server=utf8mb4',
+      '--collation-server=utf8mb4_unicode_ci',
+      '--log_bin_trust_function_creators=1'
+    ]
     volumes:
       - db-data:/var/lib/mysql
     ports:
