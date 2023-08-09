@@ -12,7 +12,8 @@ services:
     environment:
      - DB_URL=jdbc:mysql://db:3306/archivesspace?user=as&password=as123&useUnicode=true&characterEncoding=UTF-8
      - SOLR_URL=http://solr:8983/solr/archivesspace
-     - HOST_URL=http://app
+     - HOST_URL=http://localhost
+    env_file: .env
     ports:
       - "8080:8080"
       - "8081:8081"

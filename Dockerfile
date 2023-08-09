@@ -33,6 +33,11 @@ RUN wget -q https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.30/mys
 COPY /088_rights_management.rb /db/migrations/088_rights_management.rb
 RUN jar --verbose --update --file=/archivesspace/lib/common.jar /db/migrations/088_rights_management.rb
 
+# Install OAuth Plugin
+COPY configure-auth.sh /archivesspace
+RUN chmod u+x /archivesspace/configure-auth.sh
+RUN /archivesspace/configure-auth.sh
+
 # Install AppConfig Template
 COPY app_config.rb /app_config.rb
 RUN mv /app_config.rb /archivesspace
