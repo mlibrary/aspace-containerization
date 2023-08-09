@@ -17,3 +17,24 @@ AppConfig[:pui_log] = "/archivesspace/logs/archivesspace.out"
 AppConfig[:pui_log_level] = "info"
 AppConfig[:indexer_log] = "/archivesspace/logs/archivesspace.out"
 AppConfig[:indexer_log_level] = "info"
+
+AppConfig[:authentication_sources] = [
+  {
+    model: 'ASOauth',
+    label: 'U-M WebLogin',
+    provider: :openid_connect,
+    config: {
+      issuer: ENV["OIDC_ISSUER"],
+      discovery: true,
+      client_auth_method: 'jwks',
+      scope: [:openid, :email, :profile],
+      client_options: {
+        identifier: ENV["OIDC_CLIENT_ID"],
+        secret: ENV["OIDC_CLIENT_SECRET"],
+        redirect_uri: "#{AppConfig[:host_url]}:8080/auth/openid_connect/callback"
+      }
+    }
+  }
+]
+
+AppConfig[:plugins] << "aspace-oauth"

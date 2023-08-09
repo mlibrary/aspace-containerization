@@ -36,6 +36,11 @@ RUN jar --verbose --update --file=/archivesspace/lib/common.jar /db/migrations/0
 # Install AppConfig file
 COPY config.rb /archivesspace/config/config.rb
 
+# Install OAuth Plugin
+COPY configure-auth.sh /archivesspace
+RUN chmod u+x /archivesspace/configure-auth.sh
+RUN /archivesspace/configure-auth.sh
+
 # Install Start Up Script
 COPY startup.sh /startup.sh
 RUN mv /startup.sh /archivesspace && \
