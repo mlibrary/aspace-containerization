@@ -20,7 +20,7 @@ AppConfig[:indexer_log_level] = "info"
 
 AppConfig[:authentication_sources] = [
   {
-    model: 'ASOauth',
+    model: 'OIDCAuth',
     label: 'U-M WebLogin',
     provider: :openid_connect,
     config: {
@@ -37,4 +37,4 @@ AppConfig[:authentication_sources] = [
   }
 ]
 
-AppConfig[:plugins] << "aspace-oauth"
+AppConfig[:plugins] << "oidc-auth"
