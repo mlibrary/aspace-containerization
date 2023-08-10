@@ -9,35 +9,32 @@ class OidcController < ApplicationController
   # that is written to the system tmpdir. This is used to verify
   # the user for the backend and then deleted.
   def create
-    p auth_hash
-    $stdout.p auth_hash
-    # pw = "oidc-auth-#{auth_hash[:provider]}-#{SecureRandom.uuid}"
-    # pw_path = File.join(Dir.tmpdir, pw)
-    # puts auth_hash
+    p auth_hash.to_hash
+    pw = "oidc-auth-#{auth_hash[:provider]}-#{SecureRandom.uuid}"
+    pw_path = File.join(Dir.tmpdir, pw)
 
-    #   backend_session = nil
-    #   email = AspaceOauth.get_email(auth_hash)
-    #   username = AspaceOauth.use_uid? ? auth_hash.uid : email
+    backend_session = nil
+    username = auth_hash["uid"]
+    email = auth_hash[:info][:email]
+    name = auth_hash[:info][:name]
+    puts "Received callback for user: #{username}"
 
-    #   puts "Received callback for user: #{username}"
+    if email && username
+      info_hash = { email: email, username: username.downcase, name: name }
+      p info_hash
+      File.open(pw_path, 'w') { |f| f.write(JSON.generate(info_hash)) }
+      backend_session = User.login(username, pw)
+    end
 
-    #   if email && username
-    #     username = username.split('@').first unless AspaceOauth.username_is_email?
-    #     auth_hash[:info][:username] = username.downcase # checked in backend
-    #     auth_hash[:info][:email]    = email # ensure email is set in info
-    #     File.open(pw_path, 'w') { |f| f.write(JSON.generate(auth_hash)) }
-    #     backend_session = User.login(username, pw)
-    #   end
+    if backend_session
+      User.establish_session(self, backend_session, username)
+      load_repository_list
+    else
+      flash[:error] = 'Authentication error, unable to login.'
+    end
 
-    #   if backend_session
-    #     User.establish_session(self, backend_session, username)
-    #     load_repository_list
-    #   else
-    #     flash[:error] = 'Authentication error, unable to login.'
-    #   end
-
-    #   File.delete pw_path if File.exist? pw_path
-    #   redirect_to controller: :welcome, action: :index
+    File.delete pw_path if File.exist? pw_path
+    redirect_to controller: :welcome, action: :index
   end
   
   def failure

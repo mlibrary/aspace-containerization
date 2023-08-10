@@ -28,6 +28,7 @@ AppConfig[:authentication_sources] = [
       discovery: true,
       client_auth_method: 'jwks',
       scope: [:openid, :email, :profile],
+      uid_field: 'preferred_username',
       client_options: {
         identifier: ENV["OIDC_CLIENT_ID"],
         secret: ENV["OIDC_CLIENT_SECRET"],

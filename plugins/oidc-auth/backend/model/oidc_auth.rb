@@ -24,16 +24,17 @@ class OIDCAuth
     end
     user_data = JSON.parse(user_data_str)
 
-    return nil if username != info['username'].downcase
+    username = user_data['username']
+    return nil if username.nil?
 
     JSONModel(:user).from_hash(
       username: username,
-      name: info['name'],
-      email: info['email'],
-      first_name: info['first_name'],
-      last_name: info['last_name'],
-      telephone: info['phone'],
-      additional_contact: info['description']
+      name: user_data['name'],
+      email: user_data['email'],
+      first_name: nil,
+      last_name: nil,
+      telephone: nil,
+      additional_contact: nil
     )
   end
 end

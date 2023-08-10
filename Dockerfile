@@ -1,4 +1,4 @@
-FROM ubuntu:22.04 as build_release
+FROM ubuntu:20.04 as build_release
 
 ARG ASPACE_VERSION=latest
 ENV ASPACE_VERSION=$ASPACE_VERSION
@@ -45,7 +45,7 @@ COPY startup.sh /startup.sh
 RUN mv /startup.sh /archivesspace && \
     chmod u+x /archivesspace/startup.sh
 
-FROM ubuntu:22.04
+FROM ubuntu:20.04
 
 ENV ARCHIVESSPACE_LOGS=/dev/null \
     DEBIAN_FRONTEND=noninteractive \
