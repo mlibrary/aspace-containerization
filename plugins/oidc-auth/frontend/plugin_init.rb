@@ -16,8 +16,6 @@ ArchivesSpace::Application.extend_aspace_routes(
 require 'omniauth'
 require 'omniauth_openid_connect'
 
-# OmniAuth::AuthenticityTokenProtection.default_options(key: "csrf.token", authenticity_param: "_csrf")
-
 Rails.application.config.middleware.use OmniAuth::Builder do
   config = oidc_definition[:config]
   provider oidc_definition[:provider], config

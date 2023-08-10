@@ -42,10 +42,9 @@ class OidcController < ApplicationController
     redirect_to controller: :welcome, action: :index
   end
 
-  def oidc_logout
+  def logout
     reset_session
     redirect_to "https://shibboleth.umich.edu/cgi-bin/logout?https://lib.umich.edu/"
-  #   redirect_to AspaceOauth.saml_logout_url
   end
 
   protected

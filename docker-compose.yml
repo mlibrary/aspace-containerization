@@ -22,6 +22,8 @@ services:
     volumes:
       - app-data:/archivesspace/data
       - app-logs:/archivesspace/logs
+      - ./plugins/oidc-auth/backend:/archivesspace/plugins/oidc-auth/backend
+      - ./plugins/oidc-auth/frontend:/archivesspace/plugins/oidc-auth/frontend
 #    command: sleep infinity
 
   db:

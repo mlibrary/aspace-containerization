@@ -35,12 +35,24 @@
 </div>
 <!-- PLUGIN BEGIN -->
 <% if session[:user] %>
-  <% if AppConfig[:oidc_definition] and AppConfig[:oidc_definition][:slo_link] %>
+  <% if AppConfig[:oidc_definition] %>
     <script type="text/javascript">
-      (function() {
-        var logout = $('a[href~="<%= AppConfig[:frontend_proxy_prefix] %>logout"]').parent().parent();
-        logout.append('<li><%= link_to("#{AppConfig[:oidc_definition][:label]} Logout", "#{AppConfig[:frontend_proxy_prefix]}auth/#{AppConfig[:oidc_definition][:provider]}_logout") %></li>');
-      })();
+      const addOIDCLogout = () => {
+        const logoutURL = "<%= AppConfig[:frontend_proxy_prefix] %>" + "logout";
+        const logout = document.querySelector(`li>a[href~="${logoutURL}"]`);
+        if (logout === null) {
+          console.error(`No logout URL found; searched for ${logoutURL}`)
+          return
+        }
+
+        const newLogoutLink = document.createElement('a');
+        newLogoutLink.setAttribute('href', "<%= AppConfig[:frontend_proxy_prefix] %>" + "auth/logout");
+        newLogoutLink.innerText = "<%= AppConfig[:oidc_definition][:label] %>" + " Logout";
+        const newLogoutItem = document.createElement('li');
+        newLogoutItem.append(newLogoutLink);
+        logout.parentNode.parentNode.append(newLogoutItem);
+      };
+      addOIDCLogout();
     </script>
   <% end %>
 <% end %>
