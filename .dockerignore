@@ -5,6 +5,6 @@
 !088_rights_management.rb
 !app_config.rb
 !startup.sh
-!configure-auth.sh
+!plugins
 
 # Ignore unnecessary files inside allowed directories

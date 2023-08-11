@@ -34,7 +34,7 @@ COPY /088_rights_management.rb /db/migrations/088_rights_management.rb
 RUN jar --verbose --update --file=/archivesspace/lib/common.jar /db/migrations/088_rights_management.rb
 
 # Install OAuth Plugin
-COPY configure-auth.sh /archivesspace
+COPY plugins/aspace-oauth /archivesspace
 RUN chmod u+x /archivesspace/configure-auth.sh
 RUN /archivesspace/configure-auth.sh
 
@@ -47,7 +47,7 @@ COPY startup.sh /startup.sh
 RUN mv /startup.sh /archivesspace && \
     chmod u+x /archivesspace/startup.sh
 
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 
 ARG UID=1001090000
 
