@@ -20,16 +20,9 @@ spec:
         - image: ghcr.io/mlibrary/aspace-containerization/aspace-app:v3.3.1
           name: app
           imagePullPolicy: IfNotPresent
-          env:
-            - name: DB_URL
-              valueFrom:
-                secretKeyRef:
-                  name: database
-                  key: url
-            - name: SOLR_URL
-              value: "http://solr:8983/solr/archivesspace"
-            - name: HOST_URL
-              value: "http://aspace"
+          envFrom:
+            - secretRef:
+                name: app-secret
           ports:
             - containerPort: 8080
             - containerPort: 8081

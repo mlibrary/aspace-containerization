@@ -5,10 +5,13 @@ This documents how to deploy ArchivesSpace using the
 Perform the steps described in the sections below in order.
 You can access the [Red Hat OpenShift Service on AWS here](https://containers.aws.web.umich.edu/).
 
-### Configure database secret
-Modify the `k8s/app/database-url-secret.yml` file, replacing the `<archivesspace_password>` placeholder in the database URL with the actual password for the database user.
-
-Be careful not to commit the `database_url_secret.yml` file to the repository with the **actual plain text password**.
+### Configure `app.env`` file
+Create an `app.env` file using `.env.sample` as a template and place it in `k8s`.
+```
+cp .env.sample k8s/app.env
+open k8s/app.env
+# Enter or modify values
+```
 
 ### Create OpenShift resources using the OpenShift CLI
 After updating the database secret, you can use a single command to create resources in OpenShift
@@ -26,6 +29,10 @@ Once the CLI is installed, follow these steps.
 1. Switch to the correct OpenShift project.
     ```
     oc project archivesspace
+    ```
+1. Create a secret based on the previously created `app.env` file.
+    ```
+    oc create secret generic app-secret --from-env-file=k8s/app.env
     ```
 1. Issue the following command from the root of the repository.
     ```
