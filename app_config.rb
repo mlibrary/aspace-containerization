@@ -1,7 +1,7 @@
 host_url = "$HOST_URL"
 
-AppConfig[:db_url] = "$APPCONFIG_DB_URL"
-AppConfig[:solr_url] = "$APPCONFIG_SOLR_URL"
+AppConfig[:db_url] = "$DB_URL"
+AppConfig[:solr_url] = "$SOLR_URL"
 
 AppConfig[:backend_url] = "#{host_url}:8089"
 AppConfig[:frontend_url] = "#{host_url}:8080"
