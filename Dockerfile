@@ -44,8 +44,6 @@ RUN mv /startup.sh /archivesspace && \
 
 FROM ubuntu:20.04
 
-ARG UID=1001090000
-
 ENV ARCHIVESSPACE_LOGS=/dev/null \
     DEBIAN_FRONTEND=noninteractive \
     LANG=C.UTF-8 \
@@ -67,10 +65,7 @@ RUN apt-get update && \
       vim && \
     rm -rf /var/lib/apt/lists/*
 
-RUN useradd -g root -m -s /bin/bash -l -o -u $UID archivesspace && \
-    chown -R archivesspace:root /archivesspace
-
-USER archivesspace
+RUN chgrp -R 0 /archivesspace/ && chmod -R g=u /archivesspace/
 
 HEALTHCHECK --interval=1m --timeout=5s --start-period=5m --retries=2 \
   CMD wget -q --spider http://localhost:8089/ || exit 1
