@@ -8,16 +8,17 @@ if oidc_definition.nil?
   raise 'OIDCAuth plugin is enabled but no definition was found.'
 end
 
-# also used for ui
+# This is used in UI template files
 AppConfig[:oidc_definition] = oidc_definition
 ArchivesSpace::Application.extend_aspace_routes(
   File.join(File.dirname(__FILE__), 'routes.rb')
 )
+
 require 'omniauth'
 require 'omniauth_openid_connect'
 
 Rails.application.config.middleware.use OmniAuth::Builder do
   config = oidc_definition[:config]
   provider oidc_definition[:provider], config
-  $stdout.puts "REGISTERED #{oidc_definition[:provider]} PROVIDER WITH CONFIG: #{config}"
+  $stdout.puts "Registered #{oidc_definition[:provider]} provider with config: #{config}"
 end
