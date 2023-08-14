@@ -23,7 +23,8 @@ RUN if [ "$ASPACE_VERSION" = "latest" ]; then \
     echo "Using version: $ARCHIVESSPACE_VERSION" && \
     wget -q https://github.com/archivesspace/archivesspace/releases/download/$ARCHIVESSPACE_VERSION/archivesspace-$ARCHIVESSPACE_VERSION.zip && \
     unzip -q /archivesspace-$ARCHIVESSPACE_VERSION.zip -d / && \
-    mv /archivesspace/config/config.rb /archivesspace/config/config-$ARCHIVESSPACE_VERSION.rb
+    mv /archivesspace/config/config.rb /archivesspace/config/config-$ARCHIVESSPACE_VERSION.rb && \
+    touch /archivesspace/config/config.rb
 
 # Install Java MySQL Connector
 RUN wget -q https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.30/mysql-connector-java-8.0.30.jar && \
@@ -33,16 +34,12 @@ RUN wget -q https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.30/mys
 COPY /088_rights_management.rb /db/migrations/088_rights_management.rb
 RUN jar --verbose --update --file=/archivesspace/lib/common.jar /db/migrations/088_rights_management.rb
 
-# Install AppConfig Template
-COPY app_config.rb /app_config.rb
-RUN mv /app_config.rb /archivesspace
-
 # Install Start Up Script
 COPY startup.sh /startup.sh
 RUN mv /startup.sh /archivesspace && \
     chmod u+x /archivesspace/startup.sh
 
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 
 ENV ARCHIVESSPACE_LOGS=/dev/null \
     DEBIAN_FRONTEND=noninteractive \
