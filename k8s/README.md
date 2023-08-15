@@ -8,8 +8,8 @@ You can access the [Red Hat OpenShift Service on AWS here](https://containers.aw
 Create an `.env.deployment` file using `example.env` as a template and place it in `k8s`.
 Modify values as needed for the OpenShift project you are setting up.
 ```shell
-cp .env.sample k8s/deployment.env
-open k8s/deployment.env
+cp example.env k8s/.env.deployment
+open k8s/.env.deployment
 ```
 ### Create OpenShift resources using the OpenShift CLI
 After updating the database secret, you can use a single command to create resources in OpenShift
