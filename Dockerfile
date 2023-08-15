@@ -33,16 +33,15 @@ RUN wget -q https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.30/mys
 COPY /088_rights_management.rb /db/migrations/088_rights_management.rb
 RUN jar --verbose --update --file=/archivesspace/lib/common.jar /db/migrations/088_rights_management.rb
 
-# Install AppConfig Template
-COPY app_config.rb /app_config.rb
-RUN mv /app_config.rb /archivesspace
+# Install AppConfig file
+COPY config.rb /archivesspace/config/config.rb
 
 # Install Start Up Script
 COPY startup.sh /startup.sh
 RUN mv /startup.sh /archivesspace && \
     chmod u+x /archivesspace/startup.sh
 
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 
 ENV ARCHIVESSPACE_LOGS=/dev/null \
     DEBIAN_FRONTEND=noninteractive \
