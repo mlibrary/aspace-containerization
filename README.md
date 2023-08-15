@@ -17,10 +17,10 @@ docker-compose build --build-arg ASPACE_VERSION=v3.3.1 solr
 ### Configure ArchivesSpace
 Environment variable files, or `.env` files, are used by the project to add configuration and
 sensitive variables to the environment. `docker compose` expects to find a `.env` in the root of the repository,
-so you'll need to create one. A template file called `example.env` is provided to assist with this.
+so you'll need to create one. A template file called `env.example` is provided to assist with this.
 Note that currently no variables need to be added for the application to run locally.
 ```shell
-cp example.env .env
+cp env.example .env
 ```
 
 ### Start ArchivesSpace

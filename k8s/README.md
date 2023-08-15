@@ -5,10 +5,10 @@ This documents how to deploy ArchivesSpace using the
 Perform the steps described in the sections below in order.
 You can access the [Red Hat OpenShift Service on AWS here](https://containers.aws.web.umich.edu/).
 ### Create `.env.deployment` file
-Create a `.env.deployment` file using `example.env` as a template and place it in `k8s`.
+Create a `.env.deployment` file using `env.example` as a template and place it in `k8s`.
 Modify values as needed for the OpenShift project you are setting up.
 ```shell
-cp example.env k8s/.env.deployment
+cp env.example k8s/.env.deployment
 open k8s/.env.deployment
 ```
 ### Create OpenShift resources using the OpenShift CLI
