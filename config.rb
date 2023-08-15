@@ -1,4 +1,4 @@
-AppConfig[:host_url] = ENV.fetch("HOST_URL", "http://app")
+AppConfig[:host_url] = ENV.fetch("HOST_URL", "http://localhost")
 AppConfig[:db_url] = ENV.fetch("DB_URL", "jdbc:mysql://db:3306/archivesspace?user=as&password=as123&useUnicode=true&characterEncoding=UTF-8")
 AppConfig[:solr_url] = ENV.fetch("SOLR_URL", "http://solr:8983/solr/archivesspace")
 
