@@ -3,6 +3,7 @@
 
 # Allow files and directories
 !088_rights_management.rb
+!config.rb
 !startup.sh
 
 # Ignore unnecessary files inside allowed directories
