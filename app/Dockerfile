@@ -41,8 +41,6 @@ ENV ARCHIVESSPACE_LOGS=/dev/null \
     LANG=C.UTF-8 \
     TZ=UTC
 
-COPY --from=build_release /archivesspace /archivesspace
-
 RUN apt-get update && \
     apt-get -y install --no-install-recommends \
       ca-certificates \
@@ -56,6 +54,11 @@ RUN apt-get update && \
       gettext-base \
       vim && \
     rm -rf /var/lib/apt/lists/*
+
+COPY --from=build_release /archivesspace /archivesspace
+
+# Install Local Plugin
+COPY plugins/local /archivesspace/plugins/local
 
 # Install Auth Plugin
 RUN cd /archivesspace/plugins && \

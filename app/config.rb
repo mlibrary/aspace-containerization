@@ -34,6 +34,7 @@ oidc_client_secret = ENV["OIDC_CLIENT_SECRET"]
 oidc_end_session_endpoint = ENV["OIDC_END_SESSION_ENDPOINT"]
 if oidc_issuer && oidc_client_id && oidc_client_secret && oidc_end_session_endpoint
   puts "OIDC settings were found; adding them to the configuration"
+  AppConfig[:authentication_source_oidc] = true
   AppConfig[:authentication_sources] = [
     {
       model: "ASOauth",
@@ -49,7 +50,7 @@ if oidc_issuer && oidc_client_id && oidc_client_secret && oidc_end_session_endpo
           identifier: oidc_client_id,
           secret: oidc_client_secret,
           redirect_uri: "#{AppConfig[:frontend_proxy_url]}auth/openid_connect/callback",
-          end_session_endpoint: "#{oidc_end_session_endpoint}?#{AppConfig[:frontend_proxy_url]}"
+          end_session_endpoint: "#{oidc_end_session_endpoint}?#{AppConfig[:frontend_proxy_url]}auth/openid_connect/logout"
         }
       }
     }
