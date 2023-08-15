@@ -4,15 +4,13 @@ This documents how to deploy ArchivesSpace using the
 [MITS Container Service](https://its.umich.edu/computing/virtualization-cloud/container-service/).
 Perform the steps described in the sections below in order.
 You can access the [Red Hat OpenShift Service on AWS here](https://containers.aws.web.umich.edu/).
-
-### Configure `app.env`` file
-Create an `app.env` file using `.env.sample` as a template and place it in `k8s`.
+### Create `.env.deployment`` file
+Create an `.env.deployment` file using `example.env` as a template and place it in `k8s`.
+Modify values as needed for the OpenShift project you are setting up.
+```shell
+cp .env.sample k8s/deployment.env
+open k8s/deployment.env
 ```
-cp .env.sample k8s/app.env
-open k8s/app.env
-# Enter or modify values
-```
-
 ### Create OpenShift resources using the OpenShift CLI
 After updating the database secret, you can use a single command to create resources in OpenShift
 based on the Kubernetes objects in the `app` and `solr` directories.
@@ -27,15 +25,15 @@ Once the CLI is installed, follow these steps.
     1. Copy the command beginning with `oc login --token=...`.
     1. Paste and run the command in your terminal.
 1. Switch to the correct OpenShift project.
-    ```
+    ```shell
     oc project archivesspace
     ```
-1. Create a secret based on the previously created `app.env` file.
-    ```
-    oc create secret generic app-secret --from-env-file=k8s/app.env
+1. Create a secret based on the previously created `.env.deployment` file.
+    ```shell
+    oc create secret generic app-secret --from-env-file=k8s/.env.deployment
     ```
 1. Issue the following command from the root of the repository.
-    ```
+    ```shell
     oc apply -f k8s -R --validate
     # Note you can add --dry-run=client to test how the command would affect the project.
     ```
