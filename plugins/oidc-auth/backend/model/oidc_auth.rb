@@ -1,8 +1,5 @@
 # frozen_string_literal: true
 
-class AsOIDCException < StandardError
-end
-
 class OIDCAuth
   include JSONModel
 
@@ -19,18 +16,15 @@ class OIDCAuth
     pw_path = File.join(Dir.tmpdir, password)
     return nil unless File.exist? pw_path
 
-    user_data_str = File.open(pw_path) do |f|
-      f.read
-    end
-    user_data = JSON.parse(user_data_str)
+    user_data = JSON.parse(File.read(pw_path))
 
-    username = user_data['username']
-    return nil if username.nil?
+    username_from_file = user_data["username"]
+    return nil if username_from_file.nil?
 
     JSONModel(:user).from_hash(
       username: username,
-      name: user_data['name'],
-      email: user_data['email'],
+      name: user_data["name"],
+      email: user_data["email"],
       first_name: nil,
       last_name: nil,
       telephone: nil,
