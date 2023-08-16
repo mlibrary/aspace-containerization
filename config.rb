@@ -23,7 +23,7 @@ oidc_client_id = ENV["OIDC_CLIENT_ID"]
 oidc_client_secret = ENV["OIDC_CLIENT_SECRET"]
 
 if oidc_issuer && oidc_client_id && oidc_client_secret
-  puts "OIDC settings were found; adding them to the configuration"
+  puts "OIDC settings were found; adding OIDC authentication to the configuration"
 
   AppConfig[:authentication_sources] = [
     {
@@ -46,4 +46,5 @@ if oidc_issuer && oidc_client_id && oidc_client_secret
   ]
 
   AppConfig[:plugins] << "oidc-auth"
+  AppConfig[:allow_user_registration] = false
 end
