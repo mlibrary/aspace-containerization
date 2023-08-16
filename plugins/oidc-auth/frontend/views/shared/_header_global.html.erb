@@ -33,27 +33,3 @@
     </div>
   </nav>
 </div>
-<!-- PLUGIN BEGIN -->
-<% if session[:user] %>
-  <% if AppConfig[:oidc_definition] %>
-    <script type="text/javascript">
-      const addOIDCLogout = () => {
-        const logoutURL = "<%= AppConfig[:frontend_proxy_prefix] %>" + "logout";
-        const logout = document.querySelector(`li>a[href~="${logoutURL}"]`);
-        if (logout === null) {
-          console.error(`No logout URL found; searched for ${logoutURL}`)
-          return
-        }
-
-        const newLogoutLink = document.createElement('a');
-        newLogoutLink.setAttribute('href', "<%= AppConfig[:frontend_proxy_prefix] %>" + "auth/logout");
-        newLogoutLink.innerText = "<%= AppConfig[:oidc_definition][:label] %>" + " Logout";
-        const newLogoutItem = document.createElement('li');
-        newLogoutItem.append(newLogoutLink);
-        logout.parentNode.parentNode.append(newLogoutItem);
-      };
-      addOIDCLogout();
-    </script>
-  <% end %>
-<% end %>
-<!-- PLUGIN END -->
