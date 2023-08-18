@@ -1,16 +1,18 @@
 ---
+name: aspace
 services:
-
   app:
     depends_on:
-      - db
       - solr
+      - db
     image: aspace-app
     build:
-      dockerfile: Dockerfile
-      context: .
+      context: ./app
     env_file:
-      - .env
+      - ./app/.env
+    volumes:
+      - app-data:/archivesspace/data
+      - app-logs:/archivesspace/logs
     ports:
       - "8080:8080"
       - "8081:8081"
@@ -19,19 +21,10 @@ services:
       - "8090:8090"
       - "8091:8091"
       - "8888:8888"
-    volumes:
-      - app-data:/archivesspace/data
-      - app-logs:/archivesspace/logs
-#    command: sleep infinity
-
   db:
     image: mysql:8
-    environment:
-      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
-      - MYSQL_ROOT_PASSWORD=asroot123
-      - MYSQL_DATABASE=archivesspace
-      - MYSQL_USER=as
-      - MYSQL_PASSWORD=as123
+    env_file:
+      - ./db/.env
     command: [
       '--character-set-server=utf8mb4',
       '--collation-server=utf8mb4_unicode_ci',
@@ -41,22 +34,17 @@ services:
       - db-data:/var/lib/mysql
     ports:
       - "3306:3306"
-
   solr:
     image: aspace-solr
     build:
-      dockerfile: Dockerfile
       context: ./solr
-    environment:
-      - SOLR_JAVA_MEM=-Xms1024m -Xmx1024m
-      - SOLR_HEAP=1024m
+    env_file:
+      - ./solr/.env
     volumes:
       - solr-data:/var/solr
     ports:
       - "8983:8983"
-
 volumes:
-
   app-data:
   app-logs:
   db-data:

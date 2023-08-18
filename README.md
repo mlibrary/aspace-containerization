@@ -9,21 +9,21 @@ Containerization of ArchivesSpace for Kubernetes deployment
 | Delete old workflow runs  | delete-old-workflow-runs.yml | n/a         |
 
 ## Running Locally
-### Build ArchivesSpace
+### Configure Environment
+The images are configured through environment variables. The docker compose yaml file expects `.env` files to exist in the `app`, `db`, and `solr` directories. Copy the `env.example` file to `.env` in each of the directories.
 ```shell
-docker-compose build --build-arg ASPACE_VERSION=v3.3.1 app
-docker-compose build --build-arg ASPACE_VERSION=v3.3.1 solr
+cp ./app/env.example ./app/.env
+cp ./db/env.example ./db/.env
+cp ./solr/env.example ./solr/.env
 ```
-### Configure ArchivesSpace
-Environment variable files, or `.env` files, are used by the project to add configuration and
-sensitive variables to the environment. `docker compose` expects to find a `.env` in the root of the repository,
-so you'll need to create one. A template file called `env.example` is provided to assist with this.
-Note that currently no variables need to be added for the application to run locally.
+### Build Images
 ```shell
-cp env.example .env
+docker-compose build --build-arg ASPACE_VERSION=v3.3.1
 ```
+NOTE: `ASPACE_VERSION=latest` is the default but `v3.3.1` is known to work with this containerization a.k.a. newer versions of ArcivhesSpace may require changes to the Dockerfiles and/or configuration files.
 
-### Start ArchivesSpace
+
+### Launch Application
 ```shell
 docker-compose up -d
 ```

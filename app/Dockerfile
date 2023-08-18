@@ -11,7 +11,8 @@ RUN apt-get update && \
       git \
       wget \
       unzip \
-      default-jdk
+      default-jdk && \
+    rm -rf /var/lib/apt/lists/*
 
 # Install Archives Space
 RUN if [ "$ASPACE_VERSION" = "latest" ]; then \
@@ -30,16 +31,15 @@ RUN wget -q https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.30/mys
     cp /mysql-connector-java-8.0.30.jar /archivesspace/lib/
 
 # Monkey Patch 088_rights_management.rb in archivesspace/lib/common.jar at /common/db/migrations
-COPY /088_rights_management.rb /db/migrations/088_rights_management.rb
+COPY 088_rights_management.rb /db/migrations/088_rights_management.rb
 RUN jar --verbose --update --file=/archivesspace/lib/common.jar /db/migrations/088_rights_management.rb
 
 # Install AppConfig file
 COPY config.rb /archivesspace/config/config.rb
 
 # Install Start Up Script
-COPY startup.sh /startup.sh
-RUN mv /startup.sh /archivesspace && \
-    chmod u+x /archivesspace/startup.sh
+COPY startup.sh /archivesspace/startup.sh
+RUN chmod u+x /archivesspace/startup.sh
 
 FROM ubuntu:22.04
 
@@ -64,6 +64,7 @@ RUN apt-get update && \
       vim && \
     rm -rf /var/lib/apt/lists/*
 
+# Support arbitrary user ids - https://docs.openshift.com/container-platform/4.13/openshift_images/create-images.html#use-uid_create-images
 RUN chgrp -R 0 /archivesspace/ && chmod -R g=u /archivesspace/
 
 HEALTHCHECK --interval=1m --timeout=5s --start-period=5m --retries=2 \
