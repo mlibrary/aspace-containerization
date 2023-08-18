@@ -21,6 +21,20 @@ services:
       - "8090:8090"
       - "8091:8091"
       - "8888:8888"
+  clements:
+    depends_on:
+      - db
+      - solr
+    build:
+      dockerfile: dockerfiles/Dockerfile.clements
+      context: .
+    env_file:
+      - .env
+    ports:
+      - "8080:8080"
+    volumes:
+      - app-data:/archivesspace/data
+      - app-logs:/archivesspace/logs
   db:
     image: mysql:8
     env_file:

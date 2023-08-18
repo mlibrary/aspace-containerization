@@ -1,0 +1,7 @@
+FROM aspace-app
+
+RUN cd /archivesspace/plugins && \
+    git clone --depth 1 --branch v1.0 https://github.com/hudmol/extended_advanced_search.git && \
+    git clone https://github.com/mlibrary/aspace-clements-customization.git
+
+ENV PLUGINS="aspace-clements-customization,extended_advanced_search"
