@@ -6,5 +6,6 @@
 !config.rb
 !startup.sh
 !clements
+!scrc
 
 # Ignore unnecessary files inside allowed directories
