@@ -25,7 +25,7 @@ RUN cd /archivesspace/plugins && \
 RUN /archivesspace/scripts/initialize-plugin.sh timewalk
 
 RUN cp /archivesspace/config/config.rb /archivesspace/config/base_config.rb
-COPY bentley/bentley_config.rb /archivesspace/config/config.rb
+COPY instances/bentley/bentley_config.rb /archivesspace/config/config.rb
 
 ENV PLUGINS accession_events,aspace-jsonmodel-from-format,bhl_accession_readonly_fields,\
     bhl_accession_search,bhl_aspace_accessrestrict_text,bhl_aspace_archive_it,\
