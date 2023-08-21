@@ -38,8 +38,6 @@ services:
     image: aspace-solr
     build:
       context: ./solr
-    env_file:
-      - ./solr/.env
     volumes:
       - solr-data:/var/solr
     ports:
