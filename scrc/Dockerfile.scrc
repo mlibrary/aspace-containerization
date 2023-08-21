@@ -1,0 +1,6 @@
+FROM aspace-app
+
+RUN cp /archivesspace/config/config.rb /archivesspace/config/base_config.rb
+COPY scrc/scrc_config.rb /archivesspace/config/config.rb
+
+ENV PLUGINS="lcnaf"
