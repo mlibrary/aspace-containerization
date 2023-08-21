@@ -26,10 +26,10 @@ services:
       - db
       - solr
     build:
-      dockerfile: clements/Dockerfile.clements
-      context: .
+      context: ./app
+      dockerfile: instances/clements/Dockerfile.clements
     env_file:
-      - .env
+      - ./app/.env
     ports:
       - "8080:8080"
     volumes:
@@ -40,10 +40,10 @@ services:
       - db
       - solr
     build:
-      dockerfile: scrc/Dockerfile.scrc
-      context: .
+      context: ./app
+      dockerfile: instances/scrc/Dockerfile.scrc
     env_file:
-      - .env
+      - ./app/.env
     ports:
       - "8080:8080"
     volumes:
@@ -54,10 +54,10 @@ services:
       - db
       - solr
     build:
-      dockerfile: bentley/Dockerfile.bentley
-      context: .
+      context: ./app
+      dockerfile: instances/bentley/Dockerfile.bentley
     env_file:
-      - .env
+      - ./app/.env
     ports:
       - "8080:8080"
     volumes:

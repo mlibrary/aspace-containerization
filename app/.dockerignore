@@ -5,8 +5,6 @@
 !088_rights_management.rb
 !config.rb
 !startup.sh
-!clements
-!scrc
-!bentley
+!instances
 
 # Ignore unnecessary files inside allowed directories
