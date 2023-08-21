@@ -49,6 +49,20 @@ services:
     volumes:
       - app-data:/archivesspace/data
       - app-logs:/archivesspace/logs
+  bentley:
+    depends_on:
+      - db
+      - solr
+    build:
+      dockerfile: bentley/Dockerfile.bentley
+      context: .
+    env_file:
+      - .env
+    ports:
+      - "8080:8080"
+    volumes:
+      - app-data:/archivesspace/data
+      - app-logs:/archivesspace/logs
   db:
     image: mysql:8
     env_file:
