@@ -1,6 +1,6 @@
-AppConfig[:host_url] = ENV.fetch("HOST_URL", "http://localhost")
-AppConfig[:db_url] = ENV.fetch("DB_URL", "jdbc:mysql://db:3306/archivesspace?user=as&password=as123&useUnicode=true&characterEncoding=UTF-8")
-AppConfig[:solr_url] = ENV.fetch("SOLR_URL", "http://solr:8983/solr/archivesspace")
+AppConfig[:host_url] = ENV["HOST_URL"]
+AppConfig[:db_url] = ENV["DB_URL"]
+AppConfig[:solr_url] = ENV["SOLR_URL"]
 
 AppConfig[:backend_url] = "#{AppConfig[:host_url]}:8089"
 AppConfig[:frontend_url] = "#{AppConfig[:host_url]}:8080"

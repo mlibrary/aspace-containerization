@@ -8,7 +8,7 @@ You can access the [Red Hat OpenShift Service on AWS here](https://containers.aw
 Create a `.env.deployment` file using `env.example` as a template and place it in `k8s`.
 Modify values as needed for the OpenShift project you are setting up.
 ```shell
-cp env.example k8s/.env.deployment
+cp app/env.example k8s/.env.deployment
 open k8s/.env.deployment
 ```
 ### Create OpenShift resources using the OpenShift CLI
