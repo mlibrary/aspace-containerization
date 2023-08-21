@@ -18,4 +18,4 @@ AppConfig[:pui_log_level] = "info"
 AppConfig[:indexer_log] = "/archivesspace/logs/archivesspace.out"
 AppConfig[:indexer_log_level] = "info"
 
-AppConfig[:plugins] = ENV.fetch("PLUGINS", "").split ","
+AppConfig[:plugins] = ENV.fetch("PLUGINS", "").split(",").map { |x| x.strip }
