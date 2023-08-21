@@ -44,6 +44,9 @@ services:
       - solr-data:/var/solr
     ports:
       - "8983:8983"
+  backpack:
+    build:
+      context: ./backpack
 volumes:
   app-data:
   app-logs:
