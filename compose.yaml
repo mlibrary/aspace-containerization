@@ -35,13 +35,13 @@ services:
     volumes:
       - app-data:/archivesspace/data
       - app-logs:/archivesspace/logs
-  scrc:
+  spcoll:
     depends_on:
       - db
       - solr
     build:
       context: ./app
-      dockerfile: instances/scrc/Dockerfile.scrc
+      dockerfile: instances/spcoll/Dockerfile.spcoll
     env_file:
       - ./app/.env
     ports:
