@@ -60,6 +60,7 @@ services:
       - ./app/.env
     ports:
       - "8080:8080"
+      - "8089:8089"
     volumes:
       - app-data:/archivesspace/data
       - app-logs:/archivesspace/logs
