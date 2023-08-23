@@ -31,4 +31,4 @@ jobs:
           tags: 'ghcr.io/mlibrary/aspace-containerization/aspace-clements:${{ github.sha }}, ghcr.io/mlibrary/aspace-containerization/aspace-clements:latest'
           file: ./app/instances/clements/Dockerfile.clements
           build-args: |
-            ASPACE_IMAGE_NAME=ghcr.io/mlibrary/aspace-containerization/aspace-app:3.3.1
+            ASPACE_APP_IMAGE=ghcr.io/mlibrary/aspace-containerization/aspace-app:v3.3.1
