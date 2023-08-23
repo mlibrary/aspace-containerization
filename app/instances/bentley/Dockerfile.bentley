@@ -1,4 +1,5 @@
-FROM aspace-app
+ARG ASPACE_APP_IMAGE=aspace-app
+FROM $ASPACE_APP_IMAGE
 
 RUN cd /archivesspace/plugins && \
     git clone https://github.com/bentley-historical-library/accession_events.git && \
