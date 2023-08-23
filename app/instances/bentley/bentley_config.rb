@@ -6,8 +6,6 @@ AppConfig[:enable_public] = false
 AppConfig[:enable_docs] = false
 AppConfig[:enable_oai] = false
 
-AppConfig[:session_expire_after_seconds] = 28800
-
 # Plugin-specific configuration
 AppConfig[:accession_events] = {
   agent_username: "admin",
