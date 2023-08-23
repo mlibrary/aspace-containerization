@@ -1,6 +1,6 @@
 FROM aspace-app
 
-COPY instances/bentley/bentley_config.rb /archivesspace/config/bentley_config.rb
-RUN cat /archivesspace/config/bentley_config.rb >> /archivesspace/config/config.rb
+COPY instances/spcoll/spcoll_config.rb /archivesspace/config/spcoll_config.rb
+RUN cat /archivesspace/config/spcoll_config.rb >> /archivesspace/config/config.rb
 
 ENV PLUGINS="lcnaf"
