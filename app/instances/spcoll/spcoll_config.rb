@@ -5,5 +5,5 @@ AppConfig[:enable_public] = false
 AppConfig[:enable_oai] = false
 AppConfig[:enable_docs] = false
 
-# Plugin-specific configuration
+# Excel import setting
 AppConfig[:hide_do_load] = false

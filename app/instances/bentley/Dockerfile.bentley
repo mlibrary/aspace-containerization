@@ -31,4 +31,6 @@ ENV PLUGINS accession_events,aspace-jsonmodel-from-format,bhl_accession_readonly
     bhl_accession_search,bhl_aspace_accessrestrict_text,bhl_aspace_branding,\
     bhl_aspace_handle_verifier,bhl_aspace_print_template,bhl_aspace_translations,\
     bhl_aspace_reports,bhl_barcode,bhl_browse_pages,bhl-ead-exporter,bhl-ead-importer,\
-    bulk_create_containers,donor_details,generate_bhl_identifiers,timewalk
+    bulk_create_containers,donor_details,generate_bhl_identifiers,timewalk,\
+    user_defined_in_basic
+
