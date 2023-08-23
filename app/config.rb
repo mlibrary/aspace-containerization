@@ -9,14 +9,16 @@ AppConfig[:oai_url] = "#{AppConfig[:host_url]}:8082"
 AppConfig[:indexer_url] = "#{AppConfig[:host_url]}:8091"
 AppConfig[:docs_url] = "#{AppConfig[:host_url]}:8888"
 
+AppConfig[:session_expire_after_seconds] = 28800
+
 AppConfig[:frontend_log] = "/archivesspace/logs/archivesspace.out"
 AppConfig[:frontend_log_level] = "warn"
 AppConfig[:backend_log] = "/archivesspace/logs/archivesspace.out"
 AppConfig[:backend_log_level] = "warn"
 AppConfig[:pui_log] = "/archivesspace/logs/archivesspace.out"
-AppConfig[:pui_log_level] = "info"
+AppConfig[:pui_log_level] = "warn"
 AppConfig[:indexer_log] = "/archivesspace/logs/archivesspace.out"
-AppConfig[:indexer_log_level] = "info"
+AppConfig[:indexer_log_level] = "warn"
 
 AppConfig[:authentication_sources] = [
   {
