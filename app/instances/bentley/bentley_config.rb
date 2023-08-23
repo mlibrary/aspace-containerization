@@ -1,4 +1,4 @@
-require_relative "base_config"
+# bentley_config.rb
 
 # Application
 AppConfig[:pui_indexer_enabled] = false
