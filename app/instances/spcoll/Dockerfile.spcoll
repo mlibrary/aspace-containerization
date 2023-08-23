@@ -3,5 +3,3 @@ FROM $ASPACE_APP_IMAGE
 
 COPY instances/spcoll/spcoll_config.rb /archivesspace/config/spcoll_config.rb
 RUN cat /archivesspace/config/spcoll_config.rb >> /archivesspace/config/config.rb
-
-ENV PLUGINS="lcnaf"

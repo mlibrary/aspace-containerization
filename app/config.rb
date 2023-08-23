@@ -42,4 +42,4 @@ AppConfig[:authentication_sources] = [
 AppConfig[:plugins] << "aspace-oauth"
 AppConfig[:allow_user_registration] = false
 
-AppConfig[:plugins] = ENV.fetch("PLUGINS", "").split(",").map { |x| x.strip }
+AppConfig[:plugins] = AppConfig[:plugins] + ENV.fetch("PLUGINS", "").split(",").map { |x| x.strip }
