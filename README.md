@@ -68,14 +68,14 @@ docker volume ls
 docker-compose up -d
 ```
 ## Running other instances locally
-The containerization work within this repository is designed to serve three different stakeholder groups,
+The containerization work within this repository is designed to serve three stakeholder groups,
 each of which require different plugins and configuration. To accomodate these differences,
 we have created separate `Dockerfile`s -- all of which build upon the base `app/Dockerfile` -- and
-configuration files to help properly set up these isntances. These artifacts are located under
+configuration files to help properly set up these instances. These artifacts are located under
 [`app/instances`](/app/instances/).
 
-These instances can also be built and run locally using `instances.yaml`. To build and run one of these images,
-do the following:
+The separate instances can also be built and run locally using `instances.yaml`.
+To build and run one of these versions, do the following:
 1) Build the base `app` and `solr` images using `compose.yaml`, as described under **Build Images** above.
 2) Build the service you want to run, e.g.
     ```sh
