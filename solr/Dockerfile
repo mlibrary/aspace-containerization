@@ -28,6 +28,9 @@ RUN ls -l /archivesspace/solr
 
 FROM solr:8.10
 
+ENV SOLR_JAVA_MEM="-Xms1024m -Xmx1024m"
+ENV SOLR_HEAP="1024m"
+
 COPY --from=build_release /archivesspace/solr /opt/solr/server/solr/configsets/archivesspace/conf
 
 CMD solr-create -p 8983 -c archivesspace -d archivesspace

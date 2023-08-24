@@ -10,11 +10,10 @@ Containerization of ArchivesSpace for Kubernetes deployment
 
 ## Running Locally
 ### Configure Environment
-The images are configured through environment variables. The docker compose yaml file expects `.env` files to exist in the `app`, `db`, and `solr` directories. Copy the `env.example` file to `.env` in each of the directories.
+The images are configured through environment variables. The docker compose yaml file expects `.env` files to exist in the `app` and `db` directories. Copy the `env.example` file to `.env` in each of the directories.
 ```shell
 cp ./app/env.example ./app/.env
 cp ./db/env.example ./db/.env
-cp ./solr/env.example ./solr/.env
 ```
 ### Build Images
 ```shell

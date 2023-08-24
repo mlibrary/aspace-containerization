@@ -34,13 +34,6 @@ RUN wget -q https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.30/mys
 COPY 088_rights_management.rb /db/migrations/088_rights_management.rb
 RUN jar --verbose --update --file=/archivesspace/lib/common.jar /db/migrations/088_rights_management.rb
 
-# Install AppConfig file
-COPY config.rb /archivesspace/config/config.rb
-
-# Install Start Up Script
-COPY startup.sh /archivesspace/startup.sh
-RUN chmod u+x /archivesspace/startup.sh
-
 FROM ubuntu:22.04
 
 ENV ARCHIVESSPACE_LOGS=/dev/null \
@@ -63,6 +56,20 @@ RUN apt-get update && \
       gettext-base \
       vim && \
     rm -rf /var/lib/apt/lists/*
+
+# Install Auth Plugin
+RUN cd /archivesspace/plugins && \
+    git clone --depth 1 --branch oidc https://github.com/mlibrary/aspace-oauth.git
+
+RUN cd /archivesspace && \
+    ./scripts/initialize-plugin.sh aspace-oauth
+
+# Install AppConfig file
+COPY config.rb /archivesspace/config/config.rb
+
+# Install Start Up Script
+COPY startup.sh /archivesspace/startup.sh
+RUN chmod u+x /archivesspace/startup.sh
 
 # Support arbitrary user ids - https://docs.openshift.com/container-platform/4.13/openshift_images/create-images.html#use-uid_create-images
 RUN chgrp -R 0 /archivesspace/ && chmod -R g=u /archivesspace/
