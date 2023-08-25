@@ -31,7 +31,7 @@ AppConfig[:authentication_sources] = [
       client_options: {
         identifier: ENV["OIDC_CLIENT_ID"],
         secret: ENV["OIDC_CLIENT_SECRET"],
-        redirect_uri: "#{AppConfig[:host_url]}:8080/auth/openid_connect/callback"
+        redirect_uri: "#{ENV["PUBLIC_URL"]}/auth/openid_connect/callback"
       }
     }
   }
