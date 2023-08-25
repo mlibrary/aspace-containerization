@@ -17,7 +17,7 @@ spec:
         service: solr
     spec:
       containers:
-        - image: ghcr.io/mlibrary/aspace-containerization/aspace-solr:v3.3.1
+        - image: ghcr.io/mlibrary/aspace-containerization/aspace-solr:v3.4.1
           name: solr
           imagePullPolicy: IfNotPresent
           ports:
