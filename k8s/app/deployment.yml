@@ -17,7 +17,7 @@ spec:
         service: aspace
     spec:
       containers:
-        - image: ghcr.io/mlibrary/aspace-containerization/aspace-app:v3.3.1
+        - image: ghcr.io/mlibrary/aspace-containerization/aspace-app:v3.4.1
           name: app
           imagePullPolicy: IfNotPresent
           envFrom:
