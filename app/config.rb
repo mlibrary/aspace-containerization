@@ -18,25 +18,32 @@ AppConfig[:pui_log_level] = "info"
 AppConfig[:indexer_log] = "/archivesspace/logs/archivesspace.out"
 AppConfig[:indexer_log_level] = "info"
 
-AppConfig[:authentication_sources] = [
-  {
-    model: 'ASOauth',
-    label: 'U-M WebLogin',
-    provider: :openid_connect,
-    config: {
-      issuer: ENV["OIDC_ISSUER"],
-      discovery: true,
-      client_auth_method: 'jwks',
-      scope: [:openid, :email, :profile],
-      client_options: {
-        identifier: ENV["OIDC_CLIENT_ID"],
-        secret: ENV["OIDC_CLIENT_SECRET"],
-        redirect_uri: "#{ENV["PUBLIC_URL"]}/auth/openid_connect/callback"
+oidc_issuer = ENV["OIDC_ISSUER"]
+oidc_client_id = ENV["OIDC_CLIENT_ID"]
+oidc_client_secret = ENV["OIDC_CLIENT_SECRET"]
+
+if oidc_issuer && oidc_client_id && oidc_client_secret
+  puts "OIDC settings were found; adding OIDC authentication to the configuration"
+
+  AppConfig[:authentication_sources] = [
+    {
+      model: 'ASOauth',
+      label: 'U-M WebLogin',
+      provider: :openid_connect,
+      config: {
+        issuer: ENV["OIDC_ISSUER"],
+        discovery: true,
+        client_auth_method: 'jwks',
+        scope: [:openid, :email, :profile],
+        client_options: {
+          identifier: ENV["OIDC_CLIENT_ID"],
+          secret: ENV["OIDC_CLIENT_SECRET"],
+          redirect_uri: "#{ENV["PUBLIC_URL"]}/auth/openid_connect/callback"
+        }
       }
     }
-  }
-]
+  ]
 
-AppConfig[:plugins] << "aspace-oauth"
-AppConfig[:allow_user_registration] = false
-
+  AppConfig[:plugins] << "aspace-oauth"
+  AppConfig[:allow_user_registration] = false
+end
