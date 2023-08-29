@@ -41,7 +41,7 @@ if oidc_issuer && oidc_client_id && oidc_client_secret
         client_options: {
           identifier: oidc_client_id,
           secret: oidc_client_secret,
-          redirect_uri: "#{AppConfig[:host_url]}:8080/auth/openid_connect/callback"
+          redirect_uri: "#{ENV["PUBLIC_URL"]}/auth/openid_connect/callback"
         }
       }
    }
