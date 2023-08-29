@@ -17,9 +17,9 @@ cp ./db/env.example ./db/.env
 ```
 ### Build Images
 ```shell
-docker-compose build --build-arg ASPACE_VERSION=v3.3.1
+docker-compose build --build-arg ASPACE_VERSION=v3.4.1
 ```
-NOTE: `ASPACE_VERSION=latest` is the default but `v3.3.1` is known to work with this containerization a.k.a. newer versions of ArcivhesSpace may require changes to the Dockerfiles and/or configuration files.
+NOTE: `ASPACE_VERSION=latest` is the default but `v3.4.1` is known to work with this containerization a.k.a. newer versions of ArcivhesSpace may require changes to the Dockerfiles and/or configuration files.
 
 
 ### Launch Application

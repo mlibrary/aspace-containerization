@@ -11,6 +11,7 @@ on:
         type: choice
         options:
           - "latest"
+          - "v3.4.1"
           - "v3.3.1"
 
 jobs:
