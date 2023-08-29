@@ -1,0 +1,51 @@
+---
+include:
+  - compose.yaml
+x-common: &common
+  env_file:
+    - ./app/.env
+  depends_on:
+    - db
+    - solr
+services:
+  clements:
+    << : *common
+    build:
+      context: ./app
+      dockerfile: instances/clements/Dockerfile.clements
+    ports:
+      - "8080:8080"
+    volumes:
+      - clements-app-data:/archivesspace/data
+      - clements-app-logs:/archivesspace/logs
+  spcoll:
+    << : *common
+    build:
+      context: ./app
+      dockerfile: instances/spcoll/Dockerfile.spcoll
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+      - solr
+    volumes:
+      - clements-app-data:/archivesspace/data
+      - clements-app-logs:/archivesspace/logs
+  bentley:
+    << : *common
+    build:
+      context: ./app
+      dockerfile: instances/bentley/Dockerfile.bentley
+    ports:
+      - "8080:8080"
+      - "8089:8089" # API
+    volumes:
+      - bentley-app-data:/archivesspace/data
+      - bentley-app-logs:/archivesspace/logs
+volumes:
+  clements-app-data:
+  clements-app-logs:
+  spcoll-app-data:
+  spcoll-app-logs:
+  bentley-app-data:
+  bentley-app-logs:

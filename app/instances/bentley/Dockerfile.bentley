@@ -1,0 +1,36 @@
+ARG ASPACE_APP_IMAGE=aspace-app
+FROM $ASPACE_APP_IMAGE
+
+RUN cd /archivesspace/plugins && \
+    git clone https://github.com/bentley-historical-library/accession_events.git && \
+    git clone https://github.com/bentley-historical-library/aspace-jsonmodel-from-format.git && \
+    git clone https://github.com/bentley-historical-library/bhl_accession_readonly_fields.git && \
+    git clone https://github.com/bentley-historical-library/bhl_accession_search.git && \
+    git clone https://github.com/bentley-historical-library/bhl_aspace_accessrestrict_text.git && \
+    git clone https://github.com/bentley-historical-library/bhl_aspace_branding.git && \
+    git clone https://github.com/bentley-historical-library/bhl_aspace_handle_verifier.git && \
+    git clone https://github.com/bentley-historical-library/bhl_aspace_print_template.git && \
+    git clone https://github.com/bentley-historical-library/bhl_aspace_translations.git && \
+    git clone https://github.com/bentley-historical-library/bhl_aspace_reports.git && \
+    git clone https://github.com/bentley-historical-library/bhl_barcode.git && \
+    git clone https://github.com/bentley-historical-library/bhl_browse_pages.git && \
+    git clone https://github.com/bentley-historical-library/bhl-ead-exporter.git && \
+    git clone https://github.com/bentley-historical-library/bhl-ead-importer.git && \
+    git clone https://github.com/bentley-historical-library/bulk_create_containers.git && \
+    git clone https://github.com/bentley-historical-library/donor_details.git && \
+    git clone https://github.com/bentley-historical-library/generate_bhl_identifiers.git && \
+    git clone https://github.com/bentley-historical-library/timewalk.git && \
+    git clone https://github.com/bentley-historical-library/user_defined_in_basic.git
+
+RUN /archivesspace/scripts/initialize-plugin.sh timewalk
+
+COPY instances/bentley/bentley_config.rb /archivesspace/config/bentley_config.rb
+RUN cat /archivesspace/config/bentley_config.rb >> /archivesspace/config/config.rb
+
+ENV PLUGINS accession_events,aspace-jsonmodel-from-format,bhl_accession_readonly_fields,\
+    bhl_accession_search,bhl_aspace_accessrestrict_text,bhl_aspace_branding,\
+    bhl_aspace_handle_verifier,bhl_aspace_print_template,bhl_aspace_translations,\
+    bhl_aspace_reports,bhl_barcode,bhl_browse_pages,bhl-ead-exporter,bhl-ead-importer,\
+    bulk_create_containers,donor_details,generate_bhl_identifiers,timewalk,\
+    user_defined_in_basic
+

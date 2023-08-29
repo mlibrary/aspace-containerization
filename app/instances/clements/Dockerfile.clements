@@ -1,0 +1,11 @@
+ARG ASPACE_APP_IMAGE=aspace-app
+FROM $ASPACE_APP_IMAGE
+
+RUN cd /archivesspace/plugins && \
+    git clone --depth 1 --branch v1.0 https://github.com/hudmol/extended_advanced_search.git && \
+    git clone https://github.com/mlibrary/aspace-clements-customization.git
+
+COPY instances/clements/clements_config.rb /archivesspace/config/clements_config.rb
+RUN cat /archivesspace/config/clements_config.rb >> /archivesspace/config/config.rb
+
+ENV PLUGINS="aspace-clements-customization,extended_advanced_search"

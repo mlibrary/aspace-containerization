@@ -63,13 +63,41 @@ Since docker-compose.yml mapping app data, db data, and solr data to volumes dat
 ```shell
 docker-compose down
 docker volume ls
-docker volume rm aspace-containerization_app-data
-docker volume rm aspace-containerization_app-logs
-docker volume rm aspace-containerization_db-data
-docker volume rm aspace-containerization_solr-data
+docker volume prune --all
 docker volume ls
 docker-compose up -d
 ```
+## Running other instances locally
+The containerization work within this repository is designed to serve three stakeholder groups,
+each of which require different plugins and configuration. To accomodate these differences,
+we have created separate `Dockerfile`s -- all of which build upon the base `app/Dockerfile` -- and
+configuration files to help properly set up these instances. These artifacts are located under
+[`app/instances`](/app/instances/).
+
+The separate instances can also be built and run locally using `instances.yaml`.
+To build and run one of these versions, do the following:
+1) Build the base `app` and `solr` images using `compose.yaml`, as described under **Build Images** above.
+2) Build the service you want to run, e.g.
+    ```sh
+    docker compose -f instances.yaml build spcoll
+    ```
+3) Start up the `db`, `solr`, and stakeholder-specfic service. The latter is likely to fail because
+  of ye-old race condition mentioned in **Launch Application**.
+    ```sh
+    docker compose -f instances.yaml up -d db solr spcoll
+    ```
+4) Re-start the stakeholder-specfic service.
+    ```sh
+    docker compose -f instances.yaml restart spcoll
+    ```
+Because the `instances.yaml` services depend on the `db` and `solr` services from `compose.yaml`,
+you may need to clear out volumes if you've previously run the application using `compose.yaml`.
+Note however that the stakeholder-specific services use their own log and data volumes.
+```sh
+docker compose -f instances.yaml down
+docker volume prune --all
+```
+
 ## Volumes
 | Volume                             | Container | Mount               |
 |------------------------------------|-----------|---------------------|

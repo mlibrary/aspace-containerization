@@ -9,24 +9,26 @@ AppConfig[:oai_url] = "#{AppConfig[:host_url]}:8082"
 AppConfig[:indexer_url] = "#{AppConfig[:host_url]}:8091"
 AppConfig[:docs_url] = "#{AppConfig[:host_url]}:8888"
 
+AppConfig[:session_expire_after_seconds] = 28800
+
 AppConfig[:frontend_log] = "/archivesspace/logs/archivesspace.out"
 AppConfig[:frontend_log_level] = "warn"
 AppConfig[:backend_log] = "/archivesspace/logs/archivesspace.out"
 AppConfig[:backend_log_level] = "warn"
 AppConfig[:pui_log] = "/archivesspace/logs/archivesspace.out"
-AppConfig[:pui_log_level] = "info"
+AppConfig[:pui_log_level] = "warn"
 AppConfig[:indexer_log] = "/archivesspace/logs/archivesspace.out"
-AppConfig[:indexer_log_level] = "info"
+AppConfig[:indexer_log_level] = "warn"
 
 AppConfig[:authentication_sources] = [
   {
-    model: 'ASOauth',
-    label: 'U-M WebLogin',
+    model: "ASOauth",
+    label: "U-M WebLogin",
     provider: :openid_connect,
     config: {
       issuer: ENV["OIDC_ISSUER"],
       discovery: true,
-      client_auth_method: 'jwks',
+      client_auth_method: "jwks",
       scope: [:openid, :email, :profile],
       client_options: {
         identifier: ENV["OIDC_CLIENT_ID"],
@@ -40,3 +42,4 @@ AppConfig[:authentication_sources] = [
 AppConfig[:plugins] << "aspace-oauth"
 AppConfig[:allow_user_registration] = false
 
+AppConfig[:plugins] = AppConfig[:plugins] + ENV.fetch("PLUGINS", "").split(",").map { |x| x.strip }
