@@ -29,7 +29,7 @@ if oidc_issuer && oidc_client_id && oidc_client_secret
   puts "OIDC settings were found; adding them to the configuration"
   AppConfig[:authentication_sources] = [
     {
-      model: "OIDCAuth",
+      model: "ASOauth",
       label: "U-M WebLogin",
       provider: :openid_connect,
       config: {
