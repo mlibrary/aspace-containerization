@@ -20,6 +20,8 @@ AppConfig[:pui_log_level] = "warn"
 AppConfig[:indexer_log] = "/archivesspace/logs/archivesspace.out"
 AppConfig[:indexer_log_level] = "warn"
 
+AppConfig[:default_admin_password] = ENV["DEFAULT_ADMIN_PASSWORD"]
+
 AppConfig[:allow_user_registration] = false
 AppConfig[:plugins] << "aspace-oauth"
 oidc_issuer = ENV["OIDC_ISSUER"]
