@@ -30,4 +30,4 @@ jobs:
           tags: 'ghcr.io/mlibrary/aspace-containerization/aspace-spcoll:${{ github.sha }}, ghcr.io/mlibrary/aspace-containerization/aspace-spcoll:latest'
           file: ./app/instances/spcoll/Dockerfile.spcoll
           build-args: |
-            ASPACE_APP_IMAGE=ghcr.io/mlibrary/aspace-containerization/aspace-app:v3.3.1
+            ASPACE_APP_IMAGE=ghcr.io/mlibrary/aspace-containerization/aspace-app:v3.4.1
