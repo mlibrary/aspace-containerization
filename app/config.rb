@@ -32,7 +32,6 @@ oidc_end_session_endpoint = ENV["OIDC_END_SESSION_ENDPOINT"]
 if oidc_issuer && oidc_client_id && oidc_client_secret && oidc_end_session_endpoint
   AppConfig[:allow_password_reset] = false
   AppConfig[:allow_user_registration] = false
-  AppConfig[:authentication_restricted_by_source] = true
   AppConfig[:authentication_sources] = [
     {
       model: "ASOauth",
