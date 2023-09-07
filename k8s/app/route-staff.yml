@@ -3,7 +3,7 @@ kind: Route
 metadata:
   labels:
     service: aspace
-  name: aspace
+  name: aspace-staff
 spec:
   # host: something.something.umich.edu
   port:
