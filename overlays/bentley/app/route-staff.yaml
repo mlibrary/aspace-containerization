@@ -1,0 +1,3 @@
+- op: add
+  path: /spec/host
+  value: archivesspace-bentley.apps.aws.web.umich.edu

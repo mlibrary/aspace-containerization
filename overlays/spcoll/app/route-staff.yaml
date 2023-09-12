@@ -1,0 +1,3 @@
+- op: replace
+  path: /spec/host
+  value: archivesspace-spcoll.apps.aws.web.umich.edu
