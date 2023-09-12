@@ -13,4 +13,4 @@ patches:
 secretGenerator:
 - name: app-secret
   envs:
-  - app/.env.deployment
+  - app/.env.deployment.test
