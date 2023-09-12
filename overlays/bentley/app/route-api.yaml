@@ -5,7 +5,9 @@ metadata:
     service: aspace
   name: aspace-api
   annotations:
-    haproxy.router.openshift.io/ip_whitelist: 35.1.0.0/16 35.2.0.0/16 35.3.0.0/16 35.4.0.0/16 35.5.0.0/16 35.7.0.0/18 35.7.128.0/18 141.211.0.0/16 141.213.128.0/17
+    haproxy.router.openshift.io/ip_whitelist: >-
+      35.1.0.0/16 35.2.0.0/16 35.3.0.0/16 35.4.0.0/16 35.5.0.0/16 35.7.0.0/18
+      35.7.128.0/18 141.211.0.0/16 141.213.128.0/17
 spec:
   host: archivesspace-bentley-api.apps.aws.web.umich.edu
   port:
