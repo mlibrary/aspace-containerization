@@ -9,9 +9,6 @@ spec:
     - name: "staff"
       targetPort: 8080
       port: 8080
-    - name: "public"
-      targetPort: 8081
-      port: 8081
     - name: "backend"
       targetPort: 8089
       port: 8089

@@ -25,12 +25,7 @@ spec:
                 name: app-secret
           ports:
             - containerPort: 8080
-            - containerPort: 8081
-            - containerPort: 8082
             - containerPort: 8089
-            - containerPort: 8090
-            - containerPort: 8091
-            - containerPort: 8888
           volumeMounts:
             - name: app-data
               mountPath: /archivesspace/data
