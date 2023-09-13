@@ -43,26 +43,26 @@ From the `Developer` view click `Topology`. Select the `app` which is listed und
 ## Kustomize
 
 To make the creation of different variations of the resources in `base` transparent, simple, and repeatable,
-we have provided `kustomize` artifacts that enable setup of an instance with a few commands.
+we have provided `kustomize` artifacts that enable setup of a customized instance with a couple commands.
 The resources defined under `base` form the foundation, and the configuration files in the separate directories
 under `overlays` specify the changes, overrides, or additions necessary for that variant.
 
-After logging in in the OpenShift CLI, follow these steps to create a variant in OpenShift.
-(The commands below would be for test, but you can change any mention of `test` for one of the other variants
-or any new variant you want to create.)
+After logging in with the OpenShift CLI, follow these steps to create a variant in OpenShift.
+(The commands below would be for the test instance, but you can change any mention of `test` for
+one of the other variants or any new variant you want to create.)
 
 1. Create an environment file based on `app/env.example`.
-```shell
-cp app/env.example k8s/overlays/test/app/.env.deployment.test
-# Modify values as necessary for the deployment
-```
+    ```shell
+    cp app/env.example k8s/overlays/test/app/.env.deployment.test
+    # Modify values as necessary for the variant
+    ```
 
 1. Run the `kubectl` control command targeting the overlay directory.
-```shell
-kubectl kustomize k8s/overlays/test | oc apply -f - --validate-true
-```
-Note: You can also review the resources generated first by omitting the latter half of the command.
-The `--dry-run=client` option is also available, as noted above.
+    ```shell
+    kubectl kustomize k8s/overlays/test | oc apply -f - --validate-true
+    ```
+    Note: You can also review the resources generated first by omitting the latter half of the command.
+    The `--dry-run=client` option is also available, as noted above.
 
 Running the command on an empty OpenShift project will create all the necessary resources,
 and start the Deployments. Because `solr` needs to be setup before `app` starts using it,
