@@ -52,13 +52,13 @@ After logging in in the OpenShift CLI, follow these steps to create a variant in
 or any new variant you want to create.)
 
 1. Create an environment file based on `app/env.example`.
-```sh
+```shell
 cp app/env.example k8s/overlays/test/app/.env.deployment.test
 # Modify values as necessary for the deployment
 ```
 
 1. Run the `kubectl` control command targeting the overlay directory.
-```
+```shell
 kubectl kustomize k8s/overlays/test | oc apply -f - --validate-true
 ```
 Note: You can also review the resources generated first by omitting the latter half of the command.
