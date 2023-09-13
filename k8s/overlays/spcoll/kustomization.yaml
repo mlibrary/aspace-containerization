@@ -3,7 +3,7 @@ kind: Kustomization
 commonLabels:
   variant: spcoll
 resources:
-- ../../k8s
+- ../../base
 patches:
 - path: app/deployment.yaml
   target:

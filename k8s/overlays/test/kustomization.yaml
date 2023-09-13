@@ -1,16 +1,10 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 commonLabels:
-  variant: bentley
+  variant: test
 resources:
-- ../../k8s
-- app/route-api.yaml
+- ../../base
 patches:
-- path: app/deployment.yaml
-  target:
-    kind: Deployment
-    name: app
-    version: v1
 - path: app/route-staff.yaml
   target:
     kind: Route
@@ -19,4 +13,4 @@ patches:
 secretGenerator:
 - name: app-secret
   envs:
-  - app/.env.deployment.bentley
+  - app/.env.deployment.test
