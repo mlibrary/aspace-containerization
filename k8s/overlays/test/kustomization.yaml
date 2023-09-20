@@ -4,6 +4,7 @@ commonLabels:
   variant: test
 resources:
 - ../../base
+- app/cert.yaml
 patches:
 - path: app/route-staff.yaml
   target:

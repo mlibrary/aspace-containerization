@@ -5,6 +5,7 @@ commonLabels:
 resources:
 - ../../base
 - app/route-api.yaml
+- app/cert.yaml
 patches:
 - path: app/deployment.yaml
   target:

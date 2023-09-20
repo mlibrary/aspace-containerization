@@ -1,3 +1,7 @@
 - op: add
   path: /spec/host
-  value: archivesspace-clements.apps.aws.web.umich.edu
+  value: clements.archivesspace.lib.umich.edu
+- op: add
+  path: /metadata/annotations
+  value:
+    cert-utils-operator.redhat-cop.io/certs-from-secret: cert-secret

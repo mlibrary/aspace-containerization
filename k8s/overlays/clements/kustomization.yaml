@@ -4,6 +4,7 @@ commonLabels:
   variant: clements
 resources:
 - ../../base
+- app/cert.yaml
 patches:
 - path: app/deployment.yaml
   target:
