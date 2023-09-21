@@ -1,15 +1,4 @@
-kind: Certificate
-apiVersion: cert-manager.io/v1
-metadata:
-  name: aspace
-  labels:
-    service: aspace
-spec:
-  secretName: cert-secret
-  issuerRef:
-    name: letsencrypt
-    kind: ClusterIssuer
-  # The certificate will be valid for the following names (dnsNames will
-  # appear in the certificate's Subject Alternative Names field).
-  dnsNames:
-  - clements.archivesspace.lib.umich.edu
+- op: replace
+  path: /spec/dnsNames
+  value:
+    - clements.archivesspace.lib.umich.edu

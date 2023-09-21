@@ -3,13 +3,17 @@ kind: Kustomization
 commonLabels:
   variant: test
 resources:
-- ../../base
-- app/cert.yaml
+- ../../custom-domain
 patches:
 - path: app/route-staff.yaml
   target:
     kind: Route
     name: aspace-staff
+    version: v1
+- path: app/cert.yaml
+  target:
+    kind: Certificate
+    name: aspace
     version: v1
 secretGenerator:
 - name: app-secret

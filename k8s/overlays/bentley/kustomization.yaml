@@ -3,9 +3,9 @@ kind: Kustomization
 commonLabels:
   variant: bentley
 resources:
-- ../../base
+# - ../../base
+- ../../custom-domain
 - app/route-api.yaml
-- app/cert.yaml
 patches:
 - path: app/deployment.yaml
   target:
@@ -16,6 +16,11 @@ patches:
   target:
     kind: Route
     name: aspace-staff
+    version: v1
+- path: app/cert.yaml
+  target:
+    kind: Certificate
+    name: aspace
     version: v1
 secretGenerator:
 - name: app-secret

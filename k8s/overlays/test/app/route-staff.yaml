@@ -1,7 +1,3 @@
 - op: add
   path: /spec/host
   value: test.archivesspace.lib.umich.edu
-- op: add
-  path: /metadata/annotations
-  value:
-    cert-utils-operator.redhat-cop.io/certs-from-secret: cert-secret
