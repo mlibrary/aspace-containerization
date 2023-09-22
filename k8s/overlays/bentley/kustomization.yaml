@@ -3,8 +3,7 @@ kind: Kustomization
 commonLabels:
   variant: bentley
 resources:
-# - ../../base
-- ../../custom-domain
+- ../../base-with-cert
 - app/route-api.yaml
 patches:
 - path: app/deployment.yaml

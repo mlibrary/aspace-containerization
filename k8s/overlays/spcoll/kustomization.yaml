@@ -3,8 +3,7 @@ kind: Kustomization
 commonLabels:
   variant: spcoll
 resources:
-# - ../../base
-- ../../custom-domain
+- ../../base-with-cert
 patches:
 - path: app/deployment.yaml
   target:
