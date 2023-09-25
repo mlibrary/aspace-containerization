@@ -3,7 +3,7 @@ kind: Kustomization
 commonLabels:
   variant: clements
 resources:
-- ../../base
+- ../../base-with-cert
 patches:
 - path: app/deployment.yaml
   target:
@@ -14,6 +14,11 @@ patches:
   target:
     kind: Route
     name: aspace-staff
+    version: v1
+- path: app/cert.yaml
+  target:
+    kind: Certificate
+    name: aspace
     version: v1
 secretGenerator:
 - name: app-secret

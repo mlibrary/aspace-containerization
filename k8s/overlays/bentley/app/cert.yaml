@@ -1,0 +1,5 @@
+- op: replace
+  path: /spec/dnsNames
+  value:
+    - bentley.archivesspace.lib.umich.edu
+    - api.bentley.archivesspace.lib.umich.edu

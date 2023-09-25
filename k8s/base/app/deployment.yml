@@ -19,7 +19,7 @@ spec:
       containers:
         - image: ghcr.io/mlibrary/aspace-containerization/aspace-app:v3.4.1
           name: app
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           envFrom:
             - secretRef:
                 name: app-secret

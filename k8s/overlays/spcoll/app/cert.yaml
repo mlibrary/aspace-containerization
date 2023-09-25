@@ -1,0 +1,4 @@
+- op: replace
+  path: /spec/dnsNames
+  value:
+    - spcoll.archivesspace.lib.umich.edu
