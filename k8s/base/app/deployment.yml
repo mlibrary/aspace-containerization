@@ -31,6 +31,13 @@ spec:
               mountPath: /archivesspace/data
             - name: app-logs
               mountPath: /archivesspace/logs
+      initContainers:
+        - name: init-solr
+          image: image-registry.openshift-image-registry.svc:5000/openshift/busybox:stable
+          envFrom:
+            - secretRef:
+                name: app-secret
+          command: ['sh', '-c', 'for i in {1..10}; do sleep 5; if wget -nv -O /dev/null ${SOLR_URL}/admin/ping; then exit 0; fi; done; exit 1']
       volumes:
         - name: app-data
           persistentVolumeClaim:
