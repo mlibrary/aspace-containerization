@@ -5,6 +5,11 @@ commonLabels:
 resources:
 - ../../base-with-cert
 patches:
+- path: app/deployment.yaml
+  target:
+    kind: Deployment
+    name: app
+    version: v1
 - path: app/route-staff.yaml
   target:
     kind: Route
