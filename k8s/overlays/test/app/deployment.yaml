@@ -2,3 +2,4 @@
   path: /spec/template/spec/containers/0/image
   # This is identical to the base. Modify as necessary to use different images.
   value: ghcr.io/mlibrary/aspace-containerization/aspace-app:v3.4.1
+  
