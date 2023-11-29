@@ -20,6 +20,6 @@ AppConfig[:browse_page_db_url] = ENV["BROWSE_PAGE_DB_URL"]
 AppConfig[:user_defined_in_basic] = {
   "accessions" => ["text_1", "string_1", "enum_1", "enum_2", "enum_3", "enum_4", "boolean_1", "boolean_2"],
   "digital_objects" => [],
-  "resources" => ["enum_1", "enum_2", "enum_3"],
+  "resources" => ["enum_1", "enum_2", "enum_3", "integer_1"],
   "hide_user_defined_section" => true
 }
