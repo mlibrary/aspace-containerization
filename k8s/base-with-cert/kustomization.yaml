@@ -5,7 +5,3 @@ resources:
 - app/cert.yaml
 patches:
 - path: app/route-staff.yaml
-  target:
-    kind: Route
-    name: aspace-staff
-    version: v1
