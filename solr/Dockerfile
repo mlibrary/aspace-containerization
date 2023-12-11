@@ -10,6 +10,7 @@ RUN apt-get update && \
       ca-certificates \
       git \
       wget \
+      xmlstarlet \
       unzip
 
 # Install Archives Space
@@ -22,6 +23,13 @@ RUN if [ "$ASPACE_VERSION" = "latest" ]; then \
     echo "Using version: $ARCHIVESSPACE_VERSION" && \
     wget -q https://github.com/archivesspace/archivesspace/releases/download/$ARCHIVESSPACE_VERSION/archivesspace-$ARCHIVESSPACE_VERSION.zip && \
     unzip -q /archivesspace-$ARCHIVESSPACE_VERSION.zip -d /
+
+RUN cp /archivesspace/solr/solrconfig.xml /archivesspace/solr/solrconfig-orig.xml
+
+RUN xmlstarlet edit -L \
+    --subnode "//config" -t elem -n indexConfig \
+    --subnode "//config/indexConfig" -t elem -n lockType -v "\${solr.lock.type:none}" \
+    /archivesspace/solr/solrconfig.xml
 
 # List Archives Space Solr Conf Files
 RUN ls -l /archivesspace/solr
