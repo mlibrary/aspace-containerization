@@ -10,8 +10,8 @@ RUN apt-get update && \
       ca-certificates \
       git \
       wget \
-      xmlstarlet \
-      unzip
+      unzip \
+      xmlstarlet
 
 # Install Archives Space
 RUN if [ "$ASPACE_VERSION" = "latest" ]; then \
@@ -23,8 +23,6 @@ RUN if [ "$ASPACE_VERSION" = "latest" ]; then \
     echo "Using version: $ARCHIVESSPACE_VERSION" && \
     wget -q https://github.com/archivesspace/archivesspace/releases/download/$ARCHIVESSPACE_VERSION/archivesspace-$ARCHIVESSPACE_VERSION.zip && \
     unzip -q /archivesspace-$ARCHIVESSPACE_VERSION.zip -d /
-
-RUN cp /archivesspace/solr/solrconfig.xml /archivesspace/solr/solrconfig-orig.xml
 
 RUN xmlstarlet edit -L \
     --subnode "//config" -t elem -n indexConfig \
