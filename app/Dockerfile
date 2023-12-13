@@ -29,7 +29,7 @@ RUN if [ "$ASPACE_VERSION" = "latest" ]; then \
 
 RUN xmlstarlet edit -L \
     --subnode "//config" -t elem -n indexConfig \
-    --subnode "//config/indexConfig" -t elem -n lockType -v "\${solr.lock.type:none}" \
+    --subnode "//config/indexConfig" -t elem -n lockType -v "\${solr.lock.type:single}" \
     /archivesspace/solr/solrconfig.xml
 
 # Install Java MySQL Connector
