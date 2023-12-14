@@ -27,7 +27,8 @@ RUN if [ "$ASPACE_VERSION" = "latest" ]; then \
     unzip -q /archivesspace-$ARCHIVESSPACE_VERSION.zip -d / && \
     mv /archivesspace/config/config.rb /archivesspace/config/config-$ARCHIVESSPACE_VERSION.rb
 
-# indexConfig/lockType is set to single in solrconfig.xml to prevent lock issues when Solr exits improperly.
+# indexConfig/lockType is set to single in solrconfig.xml to prevent issues that occur with
+# file-based locks when Solr exits improperly.
 # lockType cannot be set via SOLR_OPTS because an indexConfig variable is not provided in
 # the ArchivesSpace release's configuration.
 # This change also needs to be made in the app image because the application compares
