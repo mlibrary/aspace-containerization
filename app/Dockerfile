@@ -33,8 +33,8 @@ RUN if [ "$ASPACE_VERSION" = "latest" ]; then \
 # This change also needs to be made in the app image because the application compares
 # the checksums of its and Solr's configuration files.
 RUN xmlstarlet edit --inplace \
-    --subnode "//config" --type elem -n indexConfig \
-    --subnode "//config/indexConfig" --type elem -n lockType --value "\${solr.lock.type:single}" \
+    --subnode "/config" --type elem -n indexConfig \
+    --subnode "/config/indexConfig" --type elem -n lockType --value "\${solr.lock.type:single}" \
     /archivesspace/solr/solrconfig.xml
 
 # Install Java MySQL Connector

@@ -28,9 +28,11 @@ RUN if [ "$ASPACE_VERSION" = "latest" ]; then \
 # lockType cannot be set via SOLR_OPTS because an indexConfig variable is not provided in
 # the ArchivesSpace release's configuration.
 RUN xmlstarlet edit --inplace \
-    --subnode "//config" --type elem -n indexConfig \
-    --subnode "//config/indexConfig" --type elem -n lockType --value "\${solr.lock.type:single}" \
+    --subnode "/config" --type elem -n indexConfig \
+    --subnode "/config/indexConfig" --type elem -n lockType --value "\${solr.lock.type:single}" \
     /archivesspace/solr/solrconfig.xml
+
+RUN cat /archivesspace/solr/solrconfig.xml
 
 # List Archives Space Solr Conf Files
 RUN ls -l /archivesspace/solr
