@@ -27,9 +27,14 @@ RUN if [ "$ASPACE_VERSION" = "latest" ]; then \
     unzip -q /archivesspace-$ARCHIVESSPACE_VERSION.zip -d / && \
     mv /archivesspace/config/config.rb /archivesspace/config/config-$ARCHIVESSPACE_VERSION.rb
 
-RUN xmlstarlet edit -L \
-    --subnode "//config" -t elem -n indexConfig \
-    --subnode "//config/indexConfig" -t elem -n lockType -v "\${solr.lock.type:single}" \
+# indexConfig/lockType is set to single in solrconfig.xml to prevent lock issues when Solr exits improperly.
+# lockType cannot be set via SOLR_OPTS because an indexConfig variable is not provided in
+# the ArchivesSpace release's configuration.
+# This change also needs to be made in the app image because the application compares
+# the checksums of its and Solr's configuration files.
+RUN xmlstarlet edit --inplace \
+    --subnode "//config" --type elem -n indexConfig \
+    --subnode "//config/indexConfig" --type elem -n lockType --value "\${solr.lock.type:single}" \
     /archivesspace/solr/solrconfig.xml
 
 # Install Java MySQL Connector
