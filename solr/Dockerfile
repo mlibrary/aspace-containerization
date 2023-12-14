@@ -33,8 +33,6 @@ RUN xmlstarlet edit --inplace \
     --subnode "/config/indexConfig" --type elem -n lockType --value "\${solr.lock.type:single}" \
     /archivesspace/solr/solrconfig.xml
 
-RUN cat /archivesspace/solr/solrconfig.xml
-
 # List Archives Space Solr Conf Files
 RUN ls -l /archivesspace/solr
 
