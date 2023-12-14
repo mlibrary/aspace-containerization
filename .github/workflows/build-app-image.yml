@@ -37,7 +37,7 @@ jobs:
         with:
           context: ./app
           push: true
-          tags: 'ghcr.io/mlibrary/aspace-containerization/aspace-app:${{ github.sha }}, ghcr.io/mlibrary/aspace-containerization/aspace-app:${{ github.event.inputs.archives_space_version }}'
+          tags: 'ghcr.io/mlibrary/aspace-containerization/aspace-app:${{ github.sha }}'
           file: ./app/Dockerfile
           build-args: |
             ASPACE_VERSION=${{ github.event.inputs.archives_space_version }}
