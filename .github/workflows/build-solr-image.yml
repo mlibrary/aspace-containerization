@@ -37,7 +37,7 @@ jobs:
         with:
           context: ./solr
           push: true
-          tags: 'ghcr.io/mlibrary/aspace-containerization/aspace-solr:${{ github.sha }}'
+          tags: 'ghcr.io/mlibrary/aspace-containerization/aspace-solr:${{ github.sha }}, ghcr.io/mlibrary/aspace-containerization/aspace-solr:${{ github.event.inputs.archives_space_version }}'
           file: ./solr/Dockerfile
           build-args: |
             ASPACE_VERSION=${{ github.event.inputs.archives_space_version }}
