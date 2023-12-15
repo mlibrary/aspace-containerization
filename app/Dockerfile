@@ -11,7 +11,8 @@ RUN apt-get update && \
       git \
       wget \
       unzip \
-      default-jdk && \
+      default-jdk \
+      xmlstarlet && \
     rm -rf /var/lib/apt/lists/*
 
 # Install Archives Space
@@ -25,6 +26,17 @@ RUN if [ "$ASPACE_VERSION" = "latest" ]; then \
     wget -q https://github.com/archivesspace/archivesspace/releases/download/$ARCHIVESSPACE_VERSION/archivesspace-$ARCHIVESSPACE_VERSION.zip && \
     unzip -q /archivesspace-$ARCHIVESSPACE_VERSION.zip -d / && \
     mv /archivesspace/config/config.rb /archivesspace/config/config-$ARCHIVESSPACE_VERSION.rb
+
+# indexConfig/lockType is set to single in solrconfig.xml to prevent issues that occur with
+# file-based locks when Solr exits improperly.
+# lockType cannot be set via SOLR_OPTS because an indexConfig variable is not provided in
+# the ArchivesSpace release's configuration.
+# This change also needs to be made in the app image because the application compares
+# the checksums of its and Solr's configuration files.
+RUN xmlstarlet edit --inplace \
+    --subnode "/config" --type elem -n indexConfig \
+    --subnode "/config/indexConfig" --type elem -n lockType --value "\${solr.lock.type:single}" \
+    /archivesspace/solr/solrconfig.xml
 
 # Install Java MySQL Connector
 RUN wget -q https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.30/mysql-connector-java-8.0.30.jar && \

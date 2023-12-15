@@ -10,7 +10,8 @@ RUN apt-get update && \
       ca-certificates \
       git \
       wget \
-      unzip
+      unzip \
+      xmlstarlet
 
 # Install Archives Space
 RUN if [ "$ASPACE_VERSION" = "latest" ]; then \
@@ -22,6 +23,15 @@ RUN if [ "$ASPACE_VERSION" = "latest" ]; then \
     echo "Using version: $ARCHIVESSPACE_VERSION" && \
     wget -q https://github.com/archivesspace/archivesspace/releases/download/$ARCHIVESSPACE_VERSION/archivesspace-$ARCHIVESSPACE_VERSION.zip && \
     unzip -q /archivesspace-$ARCHIVESSPACE_VERSION.zip -d /
+
+# indexConfig/lockType is set to single in solrconfig.xml to prevent issues that occur with
+# file-based locks when Solr exits improperly.
+# lockType cannot be set via SOLR_OPTS because an indexConfig variable is not provided in
+# the ArchivesSpace release's configuration.
+RUN xmlstarlet edit --inplace \
+    --subnode "/config" --type elem -n indexConfig \
+    --subnode "/config/indexConfig" --type elem -n lockType --value "\${solr.lock.type:single}" \
+    /archivesspace/solr/solrconfig.xml
 
 # List Archives Space Solr Conf Files
 RUN ls -l /archivesspace/solr
