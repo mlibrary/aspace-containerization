@@ -5,6 +5,8 @@ AppConfig[:pui_indexer_enabled] = false
 AppConfig[:enable_public] = false
 AppConfig[:enable_docs] = false
 AppConfig[:enable_oai] = false
+AppConfig[:enable_custom_reports] = true
+AppConfig[:default_page_size] = 20
 
 # Plugin-specific configuration
 AppConfig[:accession_events] = {
