@@ -20,7 +20,8 @@ RUN cd /archivesspace/plugins && \
     git clone https://github.com/bentley-historical-library/donor_details.git && \
     git clone https://github.com/bentley-historical-library/generate_bhl_identifiers.git && \
     git clone https://github.com/bentley-historical-library/timewalk.git && \
-    git clone https://github.com/bentley-historical-library/user_defined_in_basic.git
+    git clone https://github.com/bentley-historical-library/user_defined_in_basic.git && \
+    git clone https://github.com/bentley-historical-library/aspace_tree_endpoint.git
 
 RUN /archivesspace/scripts/initialize-plugin.sh timewalk
 
@@ -32,5 +33,5 @@ ENV PLUGINS accession_events,aspace-jsonmodel-from-format,bhl_accession_readonly
     bhl_aspace_handle_verifier,bhl_aspace_print_template,bhl_aspace_translations,\
     bhl_aspace_reports,bhl_barcode,bhl_browse_pages,bhl-ead-exporter,bhl-ead-importer,\
     bulk_create_containers,donor_details,generate_bhl_identifiers,timewalk,\
-    user_defined_in_basic
+    user_defined_in_basic,aspace_tree_endpoint
 
