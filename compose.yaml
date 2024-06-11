@@ -22,7 +22,7 @@ services:
       - "8091:8091"
       - "8888:8888"
   db:
-    image: mysql:8
+    image: mariadb:10
     env_file:
       - ./db/.env
     command: [
