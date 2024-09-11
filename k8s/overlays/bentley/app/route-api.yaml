@@ -8,7 +8,7 @@ metadata:
     cert-utils-operator.redhat-cop.io/certs-from-secret: cert-secret
     haproxy.router.openshift.io/ip_whitelist: >-
       35.1.0.0/16 35.2.0.0/16 35.3.0.0/16 35.4.0.0/16 35.5.0.0/16 35.7.0.0/18
-      35.7.128.0/18 141.211.0.0/16 141.213.128.0/17
+      35.7.128.0/18 141.211.0.0/16 141.213.128.0/17 141.212.0.0/16
 spec:
   host: api.bentley.archivesspace.lib.umich.edu
   port:
