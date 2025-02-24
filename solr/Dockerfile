@@ -1,4 +1,4 @@
-FROM ubuntu:22.04 as build_release
+FROM ubuntu:22.04 AS build_release
 
 ARG ASPACE_VERSION=latest
 ENV ASPACE_VERSION=$ASPACE_VERSION
@@ -38,8 +38,8 @@ RUN ls -l /archivesspace/solr
 
 FROM solr:8.10
 
-ENV SOLR_JAVA_MEM="-Xms1024m -Xmx1024m"
-ENV SOLR_HEAP="1024m"
+ENV SOLR_JAVA_MEM="-Xms2048m -Xmx2048m"
+ENV SOLR_HEAP="2048m"
 
 COPY --from=build_release /archivesspace/solr /opt/solr/server/solr/configsets/archivesspace/conf
 
