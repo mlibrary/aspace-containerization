@@ -1,4 +1,4 @@
-FROM ubuntu:22.04 AS build_release
+FROM ubuntu:24.04 AS build_release
 
 ARG ASPACE_VERSION=latest
 ENV ASPACE_VERSION=$ASPACE_VERSION
@@ -36,10 +36,11 @@ RUN xmlstarlet edit --inplace \
 # List Archives Space Solr Conf Files
 RUN ls -l /archivesspace/solr
 
-FROM solr:8.10
+FROM solr:9.4
 
 ENV SOLR_JAVA_MEM="-Xms2048m -Xmx2048m"
 ENV SOLR_HEAP="2048m"
+ENV SOLR_MODULES=analysis-extras
 
 COPY --from=build_release /archivesspace/solr /opt/solr/server/solr/configsets/archivesspace/conf
 

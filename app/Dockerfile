@@ -1,4 +1,4 @@
-FROM ubuntu:22.04 as build_release
+FROM ubuntu:24.04 AS build_release
 
 ARG ASPACE_VERSION=latest
 ENV ASPACE_VERSION=$ASPACE_VERSION
@@ -46,7 +46,7 @@ RUN wget -q https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.30/mys
 COPY 088_rights_management.rb /db/migrations/088_rights_management.rb
 RUN jar --verbose --update --file=/archivesspace/lib/common.jar /db/migrations/088_rights_management.rb
 
-FROM ubuntu:22.04
+FROM ubuntu:24.04
 
 ENV ARCHIVESSPACE_LOGS=/dev/null \
     DEBIAN_FRONTEND=noninteractive \
@@ -71,7 +71,7 @@ RUN apt-get update && \
 
 # Install Auth Plugin
 RUN cd /archivesspace/plugins && \
-    git clone --depth 1 --branch oidc https://github.com/mlibrary/aspace-oauth.git
+    git clone --depth 1 --branch asc-56-new-oidc https://github.com/mlibrary/aspace-oauth.git
 
 RUN cd /archivesspace && \
     ./scripts/initialize-plugin.sh aspace-oauth
