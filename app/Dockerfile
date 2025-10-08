@@ -71,7 +71,7 @@ RUN apt-get update && \
 
 # Install Auth Plugin
 RUN cd /archivesspace/plugins && \
-    git clone --depth 1 --branch asc-56-new-oidc https://github.com/mlibrary/aspace-oauth.git
+    git clone --depth 1 --branch oidc-v4.1 https://github.com/mlibrary/aspace-oauth.git
 
 RUN cd /archivesspace && \
     ./scripts/initialize-plugin.sh aspace-oauth
