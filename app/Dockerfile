@@ -59,7 +59,7 @@ RUN apt-get update && \
     apt-get -y install --no-install-recommends \
       ca-certificates \
       git \
-      openjdk-11-jre-headless \
+      openjdk-17-jre-headless \
       netbase \
       shared-mime-info \
       wget \
