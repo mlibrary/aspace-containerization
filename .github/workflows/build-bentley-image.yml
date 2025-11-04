@@ -30,4 +30,4 @@ jobs:
           tags: 'ghcr.io/mlibrary/aspace-containerization/aspace-bentley:${{ github.sha }}, ghcr.io/mlibrary/aspace-containerization/aspace-bentley:latest'
           file: ./app/instances/bentley/Dockerfile.bentley
           build-args: |
-            ASPACE_APP_IMAGE=ghcr.io/mlibrary/aspace-containerization/aspace-app:v3.4.1
+            ASPACE_APP_IMAGE=ghcr.io/mlibrary/aspace-containerization/aspace-app:v4.1.1
