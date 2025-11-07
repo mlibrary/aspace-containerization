@@ -18,7 +18,7 @@ RUN cd /archivesspace/plugins && \
     git clone https://github.com/bentley-historical-library/timewalk.git && \
     git clone https://github.com/bentley-historical-library/user_defined_in_basic.git && \
     git clone https://github.com/bentley-historical-library/aspace_tree_endpoint.git && \
-    git clone https://github.com/bentley-historical-library/refid_rules.git && \
+    rm -rf refid_rules && git clone https://github.com/bentley-historical-library/refid_rules.git && \
     git clone https://github.com/bentley-historical-library/bhl_aspace_export.git && \
     git clone https://github.com/lyrasis/aspace-reindexer.git && \
     git clone https://github.com/hudmol/as_history.git
