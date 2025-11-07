@@ -6,7 +6,8 @@ AppConfig[:enable_public] = false
 AppConfig[:enable_docs] = false
 AppConfig[:enable_oai] = false
 AppConfig[:enable_custom_reports] = true
-AppConfig[:default_page_size] = 20
+AppConfig[:default_page_size] = 25
+AppConfig[:allow_other_admins_access_to_system_info] = true
 
 # Plugin-specific configuration
 AppConfig[:accession_events] = {
@@ -25,3 +26,8 @@ AppConfig[:user_defined_in_basic] = {
   "resources" => ["enum_1", "enum_2", "enum_3", "integer_1"],
   "hide_user_defined_section" => true
 }
+
+AppConfig[:reindex_on_startup] = false
+
+AppConfig[:refid_rule] = "<%= SecureRandom.hex %>"
+AppConfig[:refid_rule_only_on_create] = false

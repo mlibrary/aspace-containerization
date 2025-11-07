@@ -1,4 +1,4 @@
-FROM ubuntu:22.04 as build_release
+FROM ubuntu:24.04 AS build_release
 
 ARG ASPACE_VERSION=latest
 ENV ASPACE_VERSION=$ASPACE_VERSION
@@ -27,17 +27,6 @@ RUN if [ "$ASPACE_VERSION" = "latest" ]; then \
     unzip -q /archivesspace-$ARCHIVESSPACE_VERSION.zip -d / && \
     mv /archivesspace/config/config.rb /archivesspace/config/config-$ARCHIVESSPACE_VERSION.rb
 
-# indexConfig/lockType is set to single in solrconfig.xml to prevent issues that occur with
-# file-based locks when Solr exits improperly.
-# lockType cannot be set via SOLR_OPTS because an indexConfig variable is not provided in
-# the ArchivesSpace release's configuration.
-# This change also needs to be made in the app image because the application compares
-# the checksums of its and Solr's configuration files.
-RUN xmlstarlet edit --inplace \
-    --subnode "/config" --type elem -n indexConfig \
-    --subnode "/config/indexConfig" --type elem -n lockType --value "\${solr.lock.type:single}" \
-    /archivesspace/solr/solrconfig.xml
-
 # Install Java MySQL Connector
 RUN wget -q https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.30/mysql-connector-java-8.0.30.jar && \
     cp /mysql-connector-java-8.0.30.jar /archivesspace/lib/
@@ -46,7 +35,7 @@ RUN wget -q https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.30/mys
 COPY 088_rights_management.rb /db/migrations/088_rights_management.rb
 RUN jar --verbose --update --file=/archivesspace/lib/common.jar /db/migrations/088_rights_management.rb
 
-FROM ubuntu:22.04
+FROM ubuntu:24.04
 
 ENV ARCHIVESSPACE_LOGS=/dev/null \
     DEBIAN_FRONTEND=noninteractive \
@@ -59,7 +48,7 @@ RUN apt-get update && \
     apt-get -y install --no-install-recommends \
       ca-certificates \
       git \
-      openjdk-11-jre-headless \
+      openjdk-17-jre-headless \
       netbase \
       shared-mime-info \
       wget \
@@ -71,7 +60,7 @@ RUN apt-get update && \
 
 # Install Auth Plugin
 RUN cd /archivesspace/plugins && \
-    git clone --depth 1 --branch oidc https://github.com/mlibrary/aspace-oauth.git
+    git clone --depth 1 --branch oidc-v4.1 https://github.com/mlibrary/aspace-oauth.git
 
 RUN cd /archivesspace && \
     ./scripts/initialize-plugin.sh aspace-oauth

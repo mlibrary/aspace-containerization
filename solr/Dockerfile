@@ -1,4 +1,4 @@
-FROM ubuntu:22.04 AS build_release
+FROM ubuntu:24.04 AS build_release
 
 ARG ASPACE_VERSION=latest
 ENV ASPACE_VERSION=$ASPACE_VERSION
@@ -10,8 +10,7 @@ RUN apt-get update && \
       ca-certificates \
       git \
       wget \
-      unzip \
-      xmlstarlet
+      unzip
 
 # Install Archives Space
 RUN if [ "$ASPACE_VERSION" = "latest" ]; then \
@@ -24,22 +23,15 @@ RUN if [ "$ASPACE_VERSION" = "latest" ]; then \
     wget -q https://github.com/archivesspace/archivesspace/releases/download/$ARCHIVESSPACE_VERSION/archivesspace-$ARCHIVESSPACE_VERSION.zip && \
     unzip -q /archivesspace-$ARCHIVESSPACE_VERSION.zip -d /
 
-# indexConfig/lockType is set to single in solrconfig.xml to prevent issues that occur with
-# file-based locks when Solr exits improperly.
-# lockType cannot be set via SOLR_OPTS because an indexConfig variable is not provided in
-# the ArchivesSpace release's configuration.
-RUN xmlstarlet edit --inplace \
-    --subnode "/config" --type elem -n indexConfig \
-    --subnode "/config/indexConfig" --type elem -n lockType --value "\${solr.lock.type:single}" \
-    /archivesspace/solr/solrconfig.xml
-
 # List Archives Space Solr Conf Files
 RUN ls -l /archivesspace/solr
 
-FROM solr:8.10
+FROM solr:9.4
 
 ENV SOLR_JAVA_MEM="-Xms2048m -Xmx2048m"
 ENV SOLR_HEAP="2048m"
+ENV SOLR_MODULES=analysis-extras
+ENV SOLR_OPTS="$SOLR_OPTS -Dsolr.lock.type=single"
 
 COPY --from=build_release /archivesspace/solr /opt/solr/server/solr/configsets/archivesspace/conf
 
