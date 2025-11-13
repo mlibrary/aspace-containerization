@@ -8,7 +8,7 @@ RUN apt-get update && \
 
 RUN cd /archivesspace/plugins && \
     git clone --depth 1 --branch v1.0 https://github.com/hudmol/extended_advanced_search.git && \
-    git clone --depth 1 https://github.com/ssciolla/aspace-clements-customization.git
+    git clone --depth 1 --branch https://github.com/mlibrary/aspace-clements-customization.git
 
 RUN patch /archivesspace/locales/en.yml /archivesspace/plugins/aspace-clements-customization/en.yml.diff
 
