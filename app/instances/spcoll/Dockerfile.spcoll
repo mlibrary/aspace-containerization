@@ -2,11 +2,12 @@ ARG ASPACE_APP_IMAGE=aspace-app
 FROM $ASPACE_APP_IMAGE
 
 RUN cd /archivesspace/plugins && \
-    git clone --depth 1 --branch v2.1 https://github.com/hudmol/digitization_work_order.git
+    git clone --depth 1 --branch v2.1 https://github.com/hudmol/digitization_work_order.git && \
+    git clone --depth 1 https://github.com/mlibrary/aspace-accessibility-statement.git
 
 RUN /archivesspace/scripts/initialize-plugin.sh digitization_work_order
 
 COPY instances/spcoll/spcoll_config.rb /archivesspace/config/spcoll_config.rb
 RUN cat /archivesspace/config/spcoll_config.rb >> /archivesspace/config/config.rb
 
-ENV PLUGINS="digitization_work_order"
+ENV PLUGINS="digitization_work_order,aspace-accessibility-statement"
