@@ -8,11 +8,12 @@ RUN apt-get update && \
 
 RUN cd /archivesspace/plugins && \
     git clone --depth 1 --branch v1.0 https://github.com/hudmol/extended_advanced_search.git && \
-    git clone --depth 1 https://github.com/mlibrary/aspace-clements-customization.git
+    git clone --depth 1 https://github.com/mlibrary/aspace-clements-customization.git && \
+    git clone --depth 1 https://github.com/mlibrary/aspace-accessibility-statement.git
 
 RUN patch /archivesspace/locales/en.yml /archivesspace/plugins/aspace-clements-customization/en.yml.diff
 
 COPY instances/clements/clements_config.rb /archivesspace/config/clements_config.rb
 RUN cat /archivesspace/config/clements_config.rb >> /archivesspace/config/config.rb
 
-ENV PLUGINS="aspace-clements-customization,extended_advanced_search"
+ENV PLUGINS="aspace-clements-customization,extended_advanced_search,aspace-accessibility-statement"

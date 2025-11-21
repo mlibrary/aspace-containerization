@@ -7,3 +7,5 @@ AppConfig[:enable_docs] = false
 
 # Excel import setting
 AppConfig[:hide_do_load] = false
+
+AppConfig[:accessibility_statement_url] = ENV["ACCESSIBILITY_STATEMENT_URL"]
