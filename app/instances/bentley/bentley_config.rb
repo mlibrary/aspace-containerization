@@ -29,3 +29,5 @@ AppConfig[:reindex_on_startup] = false
 
 AppConfig[:refid_rule] = "<%= SecureRandom.hex %>"
 AppConfig[:refid_rule_only_on_create] = false
+
+AppConfig[:accessibility_statement_url] = ENV["ACCESSIBILITY_STATEMENT_URL"]
