@@ -14,13 +14,13 @@ AppConfig[:docs_url] = "#{AppConfig[:host_url]}:8888"
 AppConfig[:session_expire_after_seconds] = 28800
 
 AppConfig[:frontend_log] = "/archivesspace/logs/archivesspace.out"
-AppConfig[:frontend_log_level] = "warn"
+AppConfig[:frontend_log_level] = ENV.fetch("LOG_LEVEL", "warn")
 AppConfig[:backend_log] = "/archivesspace/logs/archivesspace.out"
-AppConfig[:backend_log_level] = "warn"
+AppConfig[:backend_log_level] = ENV.fetch("LOG_LEVEL", "warn")
 AppConfig[:pui_log] = "/archivesspace/logs/archivesspace.out"
-AppConfig[:pui_log_level] = "warn"
+AppConfig[:pui_log_level] = ENV.fetch("LOG_LEVEL", "warn")
 AppConfig[:indexer_log] = "/archivesspace/logs/archivesspace.out"
-AppConfig[:indexer_log_level] = "warn"
+AppConfig[:indexer_log_level] = ENV.fetch("LOG_LEVEL", "warn")
 
 ## Plug-ins to load. They will load in the order specified
 #AppConfig[:plugins] = ['local', 'lcnaf'] (default)
