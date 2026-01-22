@@ -3,11 +3,11 @@ kind: PersistentVolumeClaim
 metadata:
   labels:
     service: aspace
-  name: app-data
+  name: app-data-block
 spec:
-  storageClassName: efs
+  storageClassName: gp3-csi
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 2Gi
+      storage: 1Gi

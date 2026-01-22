@@ -1,3 +1,3 @@
 - op: replace
   path: /spec/template/spec/containers/0/image
-  value: ghcr.io/mlibrary/aspace-containerization/aspace-bentley@sha256:860bfd1ff70b157de1ab4f26eb536ed0f77e3e375ea66ecf1c17010a7e332fb7
+  value: ghcr.io/mlibrary/aspace-containerization/aspace-bentley@sha256:d65b03f024327a8c8dfe6028430d276240a53618ea494ecb1ad8c79409fee320

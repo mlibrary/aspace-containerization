@@ -17,7 +17,7 @@ spec:
         service: aspace
     spec:
       containers:
-        - image: ghcr.io/mlibrary/aspace-containerization/aspace-app:v3.4.1
+        - image: ghcr.io/mlibrary/aspace-containerization/aspace-app:v4.1.1
           name: app
           imagePullPolicy: Always
           envFrom:
@@ -41,7 +41,7 @@ spec:
       volumes:
         - name: app-data
           persistentVolumeClaim:
-            claimName: app-data
+            claimName: app-data-block
         - name: app-logs
           persistentVolumeClaim:
-            claimName: app-logs
+            claimName: app-logs-block
