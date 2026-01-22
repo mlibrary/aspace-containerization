@@ -17,7 +17,7 @@ spec:
         service: solr
     spec:
       containers:
-        - image: ghcr.io/mlibrary/aspace-containerization/aspace-solr:v3.4.1
+        - image: ghcr.io/mlibrary/aspace-containerization/aspace-solr:v4.1.1
           name: solr
           imagePullPolicy: IfNotPresent
           ports:
@@ -28,4 +28,4 @@ spec:
       volumes:
         - name: solr-data
           persistentVolumeClaim:
-            claimName: solr-data
+            claimName: solr-data-block

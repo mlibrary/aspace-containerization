@@ -1,7 +1,10 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-commonLabels:
-  variant: bentley
+labels:
+  - includeSelectors: true
+    includeTemplates: true
+    pairs:
+      variant: bentley
 resources:
 - ../../base-with-cert
 - app/route-api.yaml
@@ -20,6 +23,16 @@ patches:
   target:
     kind: Certificate
     name: aspace
+    version: v1
+- path: app/volume-data.yaml
+  target:
+    kind: PersistentVolumeClaim
+    name: app-data-block
+    version: v1
+- path: solr/volume.yaml
+  target:
+    kind: PersistentVolumeClaim
+    name: solr-data-block
     version: v1
 secretGenerator:
 - name: app-secret

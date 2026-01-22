@@ -3,9 +3,9 @@ kind: PersistentVolumeClaim
 metadata:
   labels:
     service: solr
-  name: solr-data
+  name: solr-data-block
 spec:
-  storageClassName: efs
+  storageClassName: gp3-csi
   accessModes:
     - ReadWriteOnce
   resources:
