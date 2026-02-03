@@ -1,0 +1,40 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+labels:
+  - includeSelectors: true
+    includeTemplates: true
+    pairs:
+      variant: bentley-test
+resources:
+- ../../base-with-cert
+- app/route-api.yaml
+patches:
+- path: app/deployment.yaml
+  target:
+    kind: Deployment
+    name: app
+    version: v1
+- path: app/route-staff.yaml
+  target:
+    kind: Route
+    name: aspace-staff
+    version: v1
+- path: app/cert.yaml
+  target:
+    kind: Certificate
+    name: aspace
+    version: v1
+- path: app/volume-data.yaml
+  target:
+    kind: PersistentVolumeClaim
+    name: app-data-block
+    version: v1
+- path: solr/volume.yaml
+  target:
+    kind: PersistentVolumeClaim
+    name: solr-data-block
+    version: v1
+secretGenerator:
+- name: app-secret
+  envs:
+  - app/.env.deployment.bentley.test
