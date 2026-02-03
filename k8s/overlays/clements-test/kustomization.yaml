@@ -1,0 +1,34 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+labels:
+  - includeSelectors: true
+    includeTemplates: true
+    pairs:
+      variant: clements-test
+resources:
+- ../../base-with-cert
+patches:
+- path: app/deployment.yaml
+  target:
+    kind: Deployment
+    name: app
+    version: v1
+- path: app/route-staff.yaml
+  target:
+    kind: Route
+    name: aspace-staff
+    version: v1
+- path: app/cert.yaml
+  target:
+    kind: Certificate
+    name: aspace
+    version: v1
+- path: solr/volume.yaml
+  target:
+    kind: PersistentVolumeClaim
+    name: solr-data-block
+    version: v1
+secretGenerator:
+- name: app-secret
+  envs:
+  - app/.env.deployment.clements.test

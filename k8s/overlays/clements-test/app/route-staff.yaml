@@ -1,0 +1,3 @@
+- op: add
+  path: /spec/host
+  value: test.clements.archivesspace.lib.umich.edu
