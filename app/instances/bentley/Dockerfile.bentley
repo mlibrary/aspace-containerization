@@ -18,7 +18,6 @@ RUN cd /archivesspace/plugins && \
     git clone https://github.com/bentley-historical-library/timewalk.git && \
     git clone https://github.com/bentley-historical-library/user_defined_in_basic.git && \
     git clone https://github.com/bentley-historical-library/aspace_tree_endpoint.git && \
-    rm -rf refid_rules && git clone https://github.com/bentley-historical-library/refid_rules.git && \
     git clone https://github.com/bentley-historical-library/bhl_aspace_export.git && \
     git clone https://github.com/lyrasis/aspace-reindexer.git && \
     git clone https://github.com/hudmol/as_history.git
@@ -33,5 +32,5 @@ ENV PLUGINS accession_events,aspace-jsonmodel-from-format,\
     bhl_aspace_print_template,bhl_aspace_translations,\
     bhl_aspace_reports,bhl_barcode,bhl-ead-importer,\
     bulk_create_containers,donor_details,generate_bhl_identifiers,timewalk,\
-    user_defined_in_basic,aspace_tree_endpoint,refid_rules,\
-    bhl_aspace_export,aspace-reindexer,as_history
+    user_defined_in_basic,aspace_tree_endpoint,bhl_aspace_export,\
+    aspace-reindexer,as_history
